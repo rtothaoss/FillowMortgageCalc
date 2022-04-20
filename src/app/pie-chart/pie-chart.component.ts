@@ -4,9 +4,7 @@ import { ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
-  ApexChart,
-  ApexTheme,
-  ApexTitleSubtitle
+  ApexChart
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -14,8 +12,6 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
-  theme: ApexTheme;
-  title: ApexTitleSubtitle;
 };
 
 @Component({
@@ -23,34 +19,19 @@ export type ChartOptions = {
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })
+
 export class PieChartComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
 
-  constructor() { 
+  constructor() {
     this.chartOptions = {
-      series: [25, 15, 44, 55, 41, 17],
+      series: [44, 55, 13, 43, 22],
       chart: {
-        width: "100%",
-        type: "pie"
+        type: "donut"
       },
-      labels: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ],
-      theme: {
-        monochrome: {
-          enabled: true
-        }
-      },
-      title: {
-        text: "Number of leads"
-      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
       responsive: [
         {
           breakpoint: 480,
@@ -65,7 +46,6 @@ export class PieChartComponent implements OnInit {
         }
       ]
     };
-  
   }
 
   ngOnInit(): void {
