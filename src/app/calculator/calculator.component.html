@@ -1,52 +1,106 @@
 <div>
-    <form #f="ngForm">
-        <div id="homePrice" ngModelGroup="userData" #userData="ngModelGroup">
-            <div class="form-group">
-              <label for="homePrice">Home Price</label>
-              <!-- <input type="text" id="homePrice" class="form-control" ngModel name="homePrice" required> -->
-              <input ngModel name="homePrice" required  class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="homePrice" type="text" placeholder="300,000">
-              
-            </div>
-            </div>
-    </form>
+  <form [formGroup]="calculatorForm">
+    <div class="form-group">
+      <label for="homePrice">Home Price</label>
+      <input
+        name="homePrice"
+        formControlName="homePrice"
+        class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        type="text"
+        [(value)]="this.calculatorForm.value.homePrice"
+      />
+
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <div class="flex">
+          <input
+            name="downPayment"
+            formControlName="downPayment"
+            class="form-control appearance-none block w-3/4 bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            id="downPayment"
+            type="text"
+          />
+          <input
+            name="downPaymentPercentage"
+            formControlName="downPaymentPercentage"
+            class="form-control appearance-none block w-1/4 bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            id="downPaymentPercentage"
+            type="text"
+          />
+        </div>
+      </div>
+      <label for="loanProgram">Loan Program</label>
+      <select
+        formControlName="loanProgram"
+        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-state"
+      >
+        <option *ngFor="let loan of loanPrograms">{{ loan }}</option>
+      </select>
+      <label for="interestRate">Interest Rate</label>
+
+      <input
+        name="interestRate"
+        formControlName="interestRate"
+        class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        type="text"
+      />
+    </div>
+  </form>
 </div>
 <div>
-    <button
+  <button
     type="button"
     (click)="toggleSection()"
-    class="text-blue-700 
-    hover:text-white border 
-    border-blue-700 
-    hover:bg-blue-800 
-    focus:ring-4 focus:outline-none 
-    focus:ring-blue-300 
-    font-medium 
-    rounded-lg 
-    text-sm 
-    px-5 
-    py-2.5 
-    text-center 
-    mr-2 
-    mb-2 
-    dark:border-blue-500 
-    dark:text-blue-500 
-    dark:hover:text-white 
-    dark:hover:bg-blue-600 
-    dark:focus:ring-blue-800"
+    class="mt-5 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"
   >
     Advanced
   </button>
-  
+
   <div *ngIf="this.isVisible">
-      <input type="checkbox" id="pmi" name="pmi" value="pmi">
-      <label for="pmi"> Include PMI</label><br>
-      <input type="checkbox" id="taxes" name="taxes" value="taxes">
-      <label for="taxes"> Inlcudes taxes/insurance</label><br>
-  
-      
+    <form [formGroup]="calculatorForm">
+      <input type="checkbox" id="pmi" name="pmi" value="pmi" />
+      <label for="pmi"> Include PMI</label><br />
+      <input
+        type="checkbox"
+        id="taxesAndInsurance"
+        name="taxesAndInsurance"
+        value="taxesAndInsurance"
+      />
+      <label for="taxesAndInsurance"> Inlcudes taxes/insurance</label><br />
+      <div class="form-group">
+        <label for="propertyTax">Property Tax</label>
+        <div class="flex">
+          <input
+            name="propertyTax"
+            formControlName="propertyTax"
+            class="form-control appearance-none block w-3/4 bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            id="propertyTax"
+            type="text"
+          />
+          <input
+            name="propertyTaxRate"
+            formControlName="propertyTaxRate"
+            class="form-control appearance-none block w-1/4 bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            id="propertyTaxRate"
+            type="text"
+          />
+        </div>
+        <label for="homeInsurance">Home Insurance</label>
+        <input
+          name="homeInsurance"
+          formControlName="homeInsurance"
+          class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          type="text"
+        />
+        <label for="hoaDues">HOA Dues</label>
+        <input
+          name="hoaDues"
+          formControlName="hoaDues"
+          class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          type="text"
+        />
+      </div>
+    </form>
   </div>
 </div>
-
-
-
-
