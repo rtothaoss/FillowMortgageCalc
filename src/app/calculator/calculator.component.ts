@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { CurrencyPipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+
+
+
 
 @Component({
   selector: 'app-calculator',
@@ -8,38 +12,69 @@ import { Observable } from 'rxjs';
   styleUrls: ['./calculator.component.css'],
 })
 export class CalculatorComponent implements OnInit {
+
   public isVisible = false;
-  calculatorForm: FormGroup;
+  myForm: FormGroup;
+  
   loanPrograms = ['30 Year Fixed', '15 Year Fixed', '5 Year ARM']
 
-  constructor() {}
+  constructor(private currencyPipe: CurrencyPipe, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.calculatorForm = new FormGroup({
-      homePrice: new FormControl('300,000',[Validators.required]),
-      downPayment: new FormControl('60,000', [Validators.required]),
-      downPaymentPercentage: new FormControl('30', [Validators.required]),
-      loanProgram: new FormControl('30 Year Fixed', [Validators.required]),
-      interestRate: new FormControl('5.075', [Validators.required]),
-      pmi: new FormControl(false),
-      taxesAndInsurance: new FormControl(false),
-      propertyTax: new FormControl('3,990'),
-      propertyTaxRate: new FormControl('1.33'),
-      homeInsurance: new FormControl('1,260'),
-      hoaDues: new FormControl('0'),
+
+    this.myForm = this.fb.group({
+      homePrice: ['', Validators.required],
+      downPayment:['', Validators.required],
+      downPaymentPercentage:['', Validators.required],
+      loanProgram:['', Validators.required],
+      interestRate:['', Validators.required],
+      pmi:[''],
+      taxesAndInsurance:[''],
+      propertyTax:[''],
+      propertyTaxRate:[''],
+      homeInsurance:[''],
+      hoaDues:[''],
+    })
+
+
+
+    this.myForm.valueChanges.subscribe(form => {  
+      if(form.homePrice) {
+        this.myForm.patchValue({
+          homePrice: this.currencyPipe.transform(form.homePrice.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0'),
+        }, {emitEvent: false})
+      }    
+      if(form.downPayment) {
+        this.myForm.patchValue({
+          downPayment: this.currencyPipe.transform(form.downPayment.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0'),
+        }, {emitEvent: false})
+      }    
+      if(form.propertyTax) {
+        this.myForm.patchValue({
+          propertyTax: this.currencyPipe.transform(form.propertyTax.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0'),
+        }, {emitEvent: false})
+      }   
+      if(form.homeInsurance) {
+        this.myForm.patchValue({
+          homeInsurance: this.currencyPipe.transform(form.homeInsurance.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0'),
+        }, {emitEvent: false})
+      }  
+      if(form.hoaDues) {
+        this.myForm.patchValue({
+          hoaDues: this.currencyPipe.transform(form.hoaDues.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0'),
+        }, {emitEvent: false})
+      } 
     });
 
-    this.calculatorForm.statusChanges.subscribe((value) => {     
-      console.log(this.calculatorForm.value.homePrice);
-    });
+
+      
+      
   }
 
   toggleSection() {
     this.isVisible = !this.isVisible;
   }
 
-  //Create Pipe that adds commas to thousands 
-  //let num2 = num.replace(/\d(?=(?:\d{3})+$)/g, '$&,');
 
   
 }

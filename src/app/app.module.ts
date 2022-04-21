@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,7 +24,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     ReactiveFormsModule,
     NgApexchartsModule
   ],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
