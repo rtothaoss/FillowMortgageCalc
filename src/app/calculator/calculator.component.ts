@@ -37,6 +37,7 @@ export class CalculatorComponent implements OnInit {
     })
 
 
+    //figure out if a switch case is possible here
 
     this.myForm.valueChanges.subscribe(form => {  
       if(form.homePrice) {

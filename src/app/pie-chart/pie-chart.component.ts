@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartComponent } from "ng-apexcharts";
+import { ApexDataLabels, ChartComponent } from "ng-apexcharts";
 
 import {
   ApexNonAxisChartSeries,
@@ -11,6 +11,7 @@ export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
   responsive: ApexResponsive[];
+  dataLabels: ApexDataLabels;
   labels: any;
 };
 
@@ -24,31 +25,41 @@ export class PieChartComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
+  principal: number = 1299
+  taxes: number = 333
+  insurance: number = 105
+  hoa: number = 200
 
   constructor() {
-    this.chartOptions = {
-      series: [44, 55, 13, 43, 22],
-      chart: {
-        type: "donut"
-      },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ]
-    };
   }
 
   ngOnInit(): void {
+    this.chartOptions = {
+      dataLabels: { // add this part to remove %
+        enabled: true,
+        formatter(value: any, opts: any): any {
+          return "$" + opts.w.config.series[opts.seriesIndex];
+        },
+      },
+    series: [this.principal, this.taxes, this.insurance, this.hoa],
+    chart: {
+      type: "donut"
+    },
+    labels: ["P & I", "Taxes", "Insurance", "HOA"],
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: "bottom"
+          }
+        }
+      }
+    ]
+  };
   }
 
 }
