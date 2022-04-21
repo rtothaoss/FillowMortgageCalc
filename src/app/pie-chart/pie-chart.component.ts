@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApexDataLabels, ChartComponent } from "ng-apexcharts";
+import { ApexDataLabels, ChartComponent } from 'ng-apexcharts';
 
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
-  ApexChart
-} from "ng-apexcharts";
+  ApexChart,
+} from 'ng-apexcharts';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -18,48 +18,45 @@ export type ChartOptions = {
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.css']
+  styleUrls: ['./pie-chart.component.css'],
 })
-
 export class PieChartComponent implements OnInit {
-
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
-  principal: number = 1299
-  taxes: number = 333
-  insurance: number = 105
-  hoa: number = 200
+  principal: number = 1299;
+  taxes: number = 333;
+  insurance: number = 105;
+  hoa: number = 200;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.chartOptions = {
-      dataLabels: { // add this part to remove %
+      dataLabels: {
+        // add this part to remove %
         enabled: true,
         formatter(value: any, opts: any): any {
-          return "$" + opts.w.config.series[opts.seriesIndex];
+          return '$' + opts.w.config.series[opts.seriesIndex];
         },
       },
-    series: [this.principal, this.taxes, this.insurance, this.hoa],
-    chart: {
-      type: "donut"
-    },
-    labels: ["P & I", "Taxes", "Insurance", "HOA"],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
+      series: [this.principal, this.taxes, this.insurance, this.hoa],
+      chart: {
+        type: 'donut',
+      },
+      labels: ['P & I', 'Taxes', 'Insurance', 'HOA'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: 'bottom',
+            },
           },
-          legend: {
-            position: "bottom"
-          }
-        }
-      }
-    ]
-  };
+        },
+      ],
+    };
   }
-
 }
