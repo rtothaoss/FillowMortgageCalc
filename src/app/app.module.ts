@@ -8,6 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {InputSwitchModule} from 'primeng/inputswitch'
+import {DropdownModule} from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {CheckboxModule} from 'primeng/checkbox'
 
 
 
@@ -22,7 +28,14 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    InputTextModule,
+    InputNumberModule,
+    InputSwitchModule,
+    DropdownModule,
+    BrowserAnimationsModule,
+    CheckboxModule
+    
   ],
   providers: [CurrencyPipe],
   bootstrap: [AppComponent]

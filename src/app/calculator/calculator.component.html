@@ -1,95 +1,82 @@
 <div>
   <form [formGroup]="myForm">
-    <div class="form-group">
-      <label for="homePrice">Home Price</label>
-      <input
-        formControlName="homePrice"
-        class="form-control appearance-none block w-full repeating-input"
-        placeholder="$300,000"
-      />
-      <div class="form-group">
-        <label for="downPayment">Down Payment</label>
-        <div class="flex">
-          <input
-            formControlName="downPayment"
-            class="form-control appearance-none block w-3/4 repeating-input"
-            placeholder="$60,000"
-          />
-          <input
-            name="downPaymentPercentage"
-            formControlName="downPaymentPercentage"
-            class="form-control appearance-none block w-1/4 repeating-input"
-            id="downPaymentPercentage"
-            type="text"
-          />
-        </div>
-      </div>
-      <label for="loanProgram">Loan Program</label>
-      <select
-        formControlName="loanProgram"
-        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="grid-state"
-      >
-        <option *ngFor="let loan of loanPrograms">{{ loan }}</option>
-      </select>
-      <label for="interestRate">Interest Rate</label>
-
-      <input
-        
-        formControlName="interestRate"
-        class="form-control appearance-none block w-full repeating-input"
-        placeholder="5.075"
-        
-      />
+    <h5 for="homePrice">Home Price</h5>
+    <p-inputNumber
+      formControlName="homePrice"
+      class="form-control appearance-none block w-full"
+      mode="currency"
+      currency="USD"
+    ></p-inputNumber>
+  
+    <h5 for="downPayment">Down Payment</h5>
+    <div class="flex">
+      <p-inputNumber
+        formControlName="downPayment"
+        class="form-control appearance-none block w-3/4"
+        mode="currency"
+        currency="USD"
+      ></p-inputNumber>
+      <span class="p-input-icon-right">
+        <i class="pi pi-percentage"></i>
+        <input type="text" pInputText formControlName="downPaymentPercentage" />
+      </span>
     </div>
+    <div>
+      <h5>Loan Program</h5>
+      <p-dropdown
+        optionLabel="name"
+        [options]="loanPrograms"
+        formControlName="loanProgram"
+      ></p-dropdown>
+    </div>
+
+    <h5 for="interestRate">Interest Rate</h5>
+    <span class="p-input-icon-right">
+      <i class="pi pi-percentage"></i>
+      <input type="text" pInputText formControlName="interestRate" />
+    </span>
   </form>
 </div>
 <div>
-  <button
-    type="button"
-    (click)="toggleSection()"
-    class="mt-5 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-  >
-    Advanced
-  </button>
+  <h5 for="toggleSection">{{ isVisible ? "Advanced" : "Basic" }}</h5>
+  <p-inputSwitch (click)="toggleSection()">Advanced</p-inputSwitch>
 
   <div *ngIf="this.isVisible">
     <form [formGroup]="myForm">
-      <input type="checkbox" id="pmi" name="pmi" value="pmi" />
-      <label for="pmi"> Include PMI</label><br />
-      <input
-        type="checkbox"
-        id="taxesAndInsurance"
-        name="taxesAndInsurance"
-        value="taxesAndInsurance"
-      />
-      <label for="taxesAndInsurance"> Inlcudes taxes/insurance</label><br />
+      <div>
+        <p-checkbox name="pmi" value=pmi label="Include PMI" formControlName="pmi" ></p-checkbox>
+      </div>
+      <div>
+        <p-checkbox name="taxes" value=taxes label="Include Taxes and Insurance" formControlName="taxesAndInsurance" ></p-checkbox>
+      </div>
       <div class="form-group">
-        <label for="propertyTax">Property Tax</label>
+        <h5 for="propertyTax">Property Tax</h5>
         <div class="flex">
-          <input
+          <p-inputNumber
             formControlName="propertyTax"
-            class="form-control appearance-none block w-3/4 repeating-input"
-            placeholder="$3,990"
-          />
-          <input
-            formControlName="propertyTaxRate"
-            class="form-control appearance-none block w-1/4 repeating-input"
-            placeholder="1.33"
-          />
+            class="form-control appearance-none block w-3/4"
+            mode="currency"
+            currency="USD"
+          ></p-inputNumber>
+          <span class="p-input-icon-right">
+            <i class="pi pi-percentage"></i>
+            <input type="text" pInputText formControlName="propertyTaxRate" />
+          </span>
         </div>
-        <label for="homeInsurance">Home Insurance</label>
-        <input
+        <h5 for="homeInsurance">Home Insurance</h5>
+        <p-inputNumber
           formControlName="homeInsurance"
-          class="form-control appearance-none block w-full repeating-input"
-          placeholder="$1,260"
-        />
-        <label for="hoaDues">HOA Dues</label>
-        <input
+          class="form-control appearance-none block w-full"
+          mode="currency"
+          currency="USD"
+        ></p-inputNumber>
+        <h5 for="homePrice">HOA</h5>
+        <p-inputNumber
           formControlName="hoaDues"
-          class="form-control appearance-none block w-full repeating-input"
-          placeholder="$0"
-        />
+          class="form-control appearance-none block w-full"
+          mode="currency"
+          currency="USD"
+        ></p-inputNumber>
       </div>
     </form>
   </div>

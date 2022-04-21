@@ -1,11 +1,18 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+
+interface LoanPrograms {
+  name: string;
+  code: string;
+}
 
 @Component({
   selector: 'app-calculator',
@@ -15,94 +22,34 @@ import {
 export class CalculatorComponent implements OnInit {
   public isVisible = false;
   myForm: FormGroup;
-
-  loanPrograms = ['30 Year Fixed', '15 Year Fixed', '5 Year ARM'];
-
-  constructor(private currencyPipe: CurrencyPipe, private fb: FormBuilder) {}
+  loanPrograms: LoanPrograms[];
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.loanPrograms = [
+      { name: '30 Year Fixed', code: '30' },
+      { name: '15 Year Fixed', code: '15' },
+      { name: '5 Year ARM', code: '5' },
+    ];
+
     this.myForm = this.fb.group({
-      homePrice: ['', Validators.required],
-      downPayment: ['', Validators.required],
-      downPaymentPercentage: ['', Validators.required],
+      homePrice: [250000, Validators.required],
+      downPayment: [60000, Validators.required],
+      downPaymentPercentage: [20, Validators.required],
       loanProgram: ['', Validators.required],
-      interestRate: ['', Validators.required],
-      pmi: [''],
-      taxesAndInsurance: [''],
-      propertyTax: [''],
-      propertyTaxRate: [''],
-      homeInsurance: [''],
-      hoaDues: [''],
+      interestRate: [5, Validators.required],
+      propertyTax: [3990],
+      propertyTaxRate: [1.33],
+      homeInsurance: [1260],
+      hoaDues: [200],
+      pmi: new FormControl('', []),
+      taxesAndInsurance: new FormControl('', [])
     });
 
-    //figure out if a switch case is possible here
+   
 
-    this.myForm.valueChanges.subscribe((form) => {
-      if (form.homePrice) {
-        this.myForm.patchValue(
-          {
-            homePrice: this.currencyPipe.transform(
-              form.homePrice.replace(/\D/g, '').replace(/^0+/, ''),
-              'USD',
-              'symbol',
-              '1.0-0'
-            ),
-          },
-          { emitEvent: false }
-        );
-      }
-      if (form.downPayment) {
-        this.myForm.patchValue(
-          {
-            downPayment: this.currencyPipe.transform(
-              form.downPayment.replace(/\D/g, '').replace(/^0+/, ''),
-              'USD',
-              'symbol',
-              '1.0-0'
-            ),
-          },
-          { emitEvent: false }
-        );
-      }
-      if (form.propertyTax) {
-        this.myForm.patchValue(
-          {
-            propertyTax: this.currencyPipe.transform(
-              form.propertyTax.replace(/\D/g, '').replace(/^0+/, ''),
-              'USD',
-              'symbol',
-              '1.0-0'
-            ),
-          },
-          { emitEvent: false }
-        );
-      }
-      if (form.homeInsurance) {
-        this.myForm.patchValue(
-          {
-            homeInsurance: this.currencyPipe.transform(
-              form.homeInsurance.replace(/\D/g, '').replace(/^0+/, ''),
-              'USD',
-              'symbol',
-              '1.0-0'
-            ),
-          },
-          { emitEvent: false }
-        );
-      }
-      if (form.hoaDues) {
-        this.myForm.patchValue(
-          {
-            hoaDues: this.currencyPipe.transform(
-              form.hoaDues.replace(/\D/g, '').replace(/^0+/, ''),
-              'USD',
-              'symbol',
-              '1.0-0'
-            ),
-          },
-          { emitEvent: false }
-        );
-      }
+    this.myForm.valueChanges.subscribe(form => {
+      console.log(form)
     });
   }
 
