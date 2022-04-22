@@ -8,6 +8,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CalculatorService } from './calculator.service';
 
 interface LoanPrograms {
   name: string;
@@ -23,7 +24,12 @@ export class CalculatorComponent implements OnInit {
   public isVisible = false;
   myForm: FormGroup;
   loanPrograms: LoanPrograms[];
-  constructor(private fb: FormBuilder) {}
+  
+
+  constructor(
+    private fb: FormBuilder,
+    private calcService: CalculatorService
+  ) {}
 
   ngOnInit(): void {
     this.loanPrograms = [
@@ -43,14 +49,14 @@ export class CalculatorComponent implements OnInit {
       homeInsurance: [1260],
       hoaDues: [200],
       pmi: new FormControl('', []),
-      taxesAndInsurance: new FormControl('', [])
+      taxesAndInsurance: new FormControl('', []),
     });
 
-   
-
-    this.myForm.valueChanges.subscribe(form => {
-      console.log(form)
+    this.myForm.valueChanges.subscribe((form) => {
+      console.log(form);
     });
+
+    
   }
 
   toggleSection() {

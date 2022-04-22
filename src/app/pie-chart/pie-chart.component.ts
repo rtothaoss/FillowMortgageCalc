@@ -6,6 +6,7 @@ import {
   ApexResponsive,
   ApexChart,
 } from 'ng-apexcharts';
+import { CalculatorService } from '../calculator/calculator.service';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -27,10 +28,14 @@ export class PieChartComponent implements OnInit {
   taxes: number = 333;
   insurance: number = 105;
   hoa: number = 200;
+  monthlyPayments = ''
 
-  constructor() {}
+  constructor(private calcService: CalculatorService) {}
 
   ngOnInit(): void {
+
+    this.monthlyPayments = this.calcService.calculateMonthlyPayment();
+
     this.chartOptions = {
       dataLabels: {
         // add this part to remove %

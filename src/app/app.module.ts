@@ -14,6 +14,7 @@ import {InputSwitchModule} from 'primeng/inputswitch'
 import {DropdownModule} from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {CheckboxModule} from 'primeng/checkbox'
+import {ButtonModule} from 'primeng/button'
 
 
 
@@ -34,7 +35,8 @@ import {CheckboxModule} from 'primeng/checkbox'
     InputSwitchModule,
     DropdownModule,
     BrowserAnimationsModule,
-    CheckboxModule
+    CheckboxModule,
+    ButtonModule
     
   ],
   providers: [CurrencyPipe],

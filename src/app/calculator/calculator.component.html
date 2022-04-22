@@ -6,8 +6,9 @@
       class="form-control appearance-none block w-full"
       mode="currency"
       currency="USD"
+      
     ></p-inputNumber>
-  
+
     <h5 for="downPayment">Down Payment</h5>
     <div class="flex">
       <p-inputNumber
@@ -37,17 +38,29 @@
     </span>
   </form>
 </div>
-<div>
-  <h5 for="toggleSection">{{ isVisible ? "Advanced" : "Basic" }}</h5>
-  <p-inputSwitch (click)="toggleSection()">Advanced</p-inputSwitch>
+<div class="{{!isVisible ? 'flex' : 'block'}}">
+  <div class="mr-5">
+    <h5 for="toggleSection">{{ isVisible ? "Advanced" : "Basic" }}</h5>
+    <p-inputSwitch (click)="toggleSection()">Advanced</p-inputSwitch>
+  </div>
 
   <div *ngIf="this.isVisible">
     <form [formGroup]="myForm">
       <div>
-        <p-checkbox name="pmi" value=pmi label="Include PMI" formControlName="pmi" ></p-checkbox>
+        <p-checkbox
+          name="pmi"
+          value="pmi"
+          label="Include PMI"
+          formControlName="pmi"
+        ></p-checkbox>
       </div>
       <div>
-        <p-checkbox name="taxes" value=taxes label="Include Taxes and Insurance" formControlName="taxesAndInsurance" ></p-checkbox>
+        <p-checkbox
+          name="taxes"
+          value="taxes"
+          label="Include Taxes and Insurance"
+          formControlName="taxesAndInsurance"
+        ></p-checkbox>
       </div>
       <div class="form-group">
         <h5 for="propertyTax">Property Tax</h5>
@@ -80,4 +93,10 @@
       </div>
     </form>
   </div>
+  <button
+    pButton
+    type="button"
+    label="Calculate"
+    class="p-button-outlined"
+  ></button>
 </div>
