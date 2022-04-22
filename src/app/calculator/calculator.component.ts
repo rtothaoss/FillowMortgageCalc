@@ -53,9 +53,16 @@ export class CalculatorComponent implements OnInit {
     });
 
     this.myForm.valueChanges.subscribe((form) => {
-      console.log(form);
+      if(form) {
+        const newCalculator = new Calculator(form.homePrice, form.downPayment, form.downPaymentPercentage, form.loanProgram, form.interestRate)
+        this.calcService.updateInputs(newCalculator)
+        this.calcService.calculateMonthlyPayment()
+      }
     });
 
+    // this.myForm.valueChanges.subscribe((data) => { if (data.yourControlName === 'someValue') { // } )};
+
+   
     
   }
 
@@ -66,7 +73,6 @@ export class CalculatorComponent implements OnInit {
   onCalculate(form: FormGroup) {
     const value = form.value
     const newCalculator = new Calculator(value.homePrice, value.downPayment, value.downPaymentPercentage, value.loanProgram, value.interestRate)
-    console.log(newCalculator)
     this.calcService.updateInputs(newCalculator)
     this.calcService.calculateMonthlyPayment()
   }
