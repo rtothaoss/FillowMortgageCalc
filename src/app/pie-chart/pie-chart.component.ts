@@ -43,7 +43,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
     this.chartOptions = {
       dataLabels: {
-        // add this part to remove %
         enabled: true,
         formatter(value: any, opts: any): any {
           return '$' + opts.w.config.series[opts.seriesIndex];

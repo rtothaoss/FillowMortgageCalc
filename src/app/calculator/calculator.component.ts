@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Calculator } from './calculator.model';
 
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -59,11 +58,7 @@ export class CalculatorComponent implements OnInit {
         this.calcService.calculateMonthlyPayment()
       }
     });
-
-    // this.myForm.valueChanges.subscribe((data) => { if (data.yourControlName === 'someValue') { // } )};
-
-   
-    
+ 
   }
 
   toggleSection() {
