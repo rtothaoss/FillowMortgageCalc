@@ -31,6 +31,10 @@ export class PieChartComponent implements OnInit, OnDestroy {
   hoa: number = 200;
   private monthlyPaymentChangeSub: Subscription
   monthlyPayments = ''
+  private monthlyPrincipleChangeSub: Subscription
+  monthlyPrinciple: number;
+  private monthlyInterestChangeSub: Subscription
+  monthlyInterest: number;
 
   constructor(private calcService: CalculatorService) {}
 
@@ -41,6 +45,15 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.monthlyPayments = value;
     })
 
+    this.monthlyPrinciple = this.calcService.getMonthlyPrinciple()
+    this.monthlyPrincipleChangeSub = this.calcService.monthlyPrincipleChanged.subscribe((value) => {
+      this.monthlyPrinciple = +value;
+    })
+    this.monthlyInterest = this.calcService.getMonthlyInterest()
+    this.monthlyInterestChangeSub = this.calcService.monthlyInterestChanged.subscribe((value) => {
+      this.monthlyInterest = +value;
+    })
+
     this.chartOptions = {
       dataLabels: {
         enabled: true,
@@ -48,11 +61,11 @@ export class PieChartComponent implements OnInit, OnDestroy {
           return '$' + opts.w.config.series[opts.seriesIndex];
         },
       },
-      series: [this.principal, this.taxes, this.insurance, this.hoa],
+      series: [this.monthlyPrinciple, this.monthlyInterest],
       chart: {
         type: 'donut',
       },
-      labels: ['P & I', 'Taxes', 'Insurance', 'HOA'],
+      labels: ['Principle', 'Interest'],
       responsive: [
         {
           breakpoint: 480,
@@ -69,9 +82,17 @@ export class PieChartComponent implements OnInit, OnDestroy {
     };
   }
 
+  public updateSeries() {
+    this.chartOptions.series = [{
+      data: [23, 44,]
+    }];
+  }
+
 
   ngOnDestroy(): void {
       this.monthlyPaymentChangeSub.unsubscribe()
+      this.monthlyInterestChangeSub.unsubscribe()
+      this.monthlyPrincipleChangeSub.unsubscribe()
   }
 
 }

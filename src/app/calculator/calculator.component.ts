@@ -23,7 +23,6 @@ export class CalculatorComponent implements OnInit {
   public isVisible = false;
   myForm: FormGroup;
   loanPrograms: LoanPrograms[];
-  
 
   constructor(
     private fb: FormBuilder,
@@ -51,24 +50,34 @@ export class CalculatorComponent implements OnInit {
       taxesAndInsurance: new FormControl('', []),
     });
 
+    this.onUpdateInputs();
+
     this.myForm.valueChanges.subscribe((form) => {
-      if(form) {
-        const newCalculator = new Calculator(form.homePrice, form.downPayment, form.downPaymentPercentage, form.loanProgram, form.interestRate)
-        this.calcService.updateInputs(newCalculator)
-        this.calcService.calculateMonthlyPayment()
+      if (form) {
+        this.onUpdateInputs();
+        this.onCalculate();
       }
     });
- 
   }
 
   toggleSection() {
     this.isVisible = !this.isVisible;
   }
 
-  onCalculate(form: FormGroup) {
-    const value = form.value
-    const newCalculator = new Calculator(value.homePrice, value.downPayment, value.downPaymentPercentage, value.loanProgram, value.interestRate)
-    this.calcService.updateInputs(newCalculator)
-    this.calcService.calculateMonthlyPayment()
+  onUpdateInputs() {
+    const value = this.myForm.value;
+    const newCalculator = new Calculator(
+      value.homePrice,
+      value.downPayment,
+      value.downPaymentPercentage,
+      value.loanProgram,
+      value.interestRate
+    );
+    this.calcService.updateInputs(newCalculator);
+  }
+
+  onCalculate() {
+    this.onUpdateInputs();
+    this.calcService.calculateMonthlyPayment();
   }
 }

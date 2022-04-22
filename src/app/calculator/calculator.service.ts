@@ -5,6 +5,10 @@ import { Calculator } from './calculator.model';
 @Injectable({ providedIn: 'root' })
 export class CalculatorService {
   monthlyPaymentChanged = new Subject<string>();
+  monthlyInterestChanged = new Subject<number>();
+  monthlyPrincipleChanged = new Subject<number>();
+  public monthlyInterest: number = 240;
+  public monthlyPrinciple: number = 833;
   public monthlyPayment: string;
 
   public mortgageInputs: Calculator;
@@ -12,16 +16,24 @@ export class CalculatorService {
   getMonthlyPayment() {
     return this.monthlyPayment;
   }
+  
+  getMonthlyPrinciple() {
+    return this.monthlyPrinciple;
+  }
+
+  getMonthlyInterest() {
+    return this.monthlyInterest;
+  }
 
   updateInputs(mortgageInputs: Calculator) {
     this.mortgageInputs = mortgageInputs;
-    
+    console.log(this.mortgageInputs)
   }
 
   calculateMonthlyPayment() {
     let principle =
       this.mortgageInputs.homePrice - this.mortgageInputs.downPayment;
-    let interest = this.mortgageInputs.interestRate / 100 / 12;
+    let interest = (this.mortgageInputs.interestRate / 100) / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;
 
@@ -29,7 +41,17 @@ export class CalculatorService {
       (principle * Math.pow(updatedInterest, numberOfPeriods) * interest) /
       (Math.pow(updatedInterest, numberOfPeriods) - 1);
 
+      let monthlyInterest = principle * interest
+      let monthlyPrinciple = monthlyPayments - monthlyInterest
+
+
     this.monthlyPayment = monthlyPayments.toFixed(2);
     this.monthlyPaymentChanged.next(this.monthlyPayment);
+
+    this.monthlyInterest = monthlyInterest;
+    this.monthlyInterestChanged.next(this.monthlyInterest);
+
+    this.monthlyPrinciple = monthlyPrinciple;
+    this.monthlyPrincipleChanged.next(this.monthlyPrinciple);
   }
 }
