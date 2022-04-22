@@ -1,5 +1,5 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Calculator } from './calculator.model';
 
 import {
   FormArray,
@@ -40,9 +40,9 @@ export class CalculatorComponent implements OnInit {
 
     this.myForm = this.fb.group({
       homePrice: [250000, Validators.required],
-      downPayment: [60000, Validators.required],
+      downPayment: [50000, Validators.required],
       downPaymentPercentage: [20, Validators.required],
-      loanProgram: ['', Validators.required],
+      loanProgram: ['30', Validators.required],
       interestRate: [5, Validators.required],
       propertyTax: [3990],
       propertyTaxRate: [1.33],
@@ -61,5 +61,13 @@ export class CalculatorComponent implements OnInit {
 
   toggleSection() {
     this.isVisible = !this.isVisible;
+  }
+
+  onCalculate(form: FormGroup) {
+    const value = form.value
+    const newCalculator = new Calculator(value.homePrice, value.downPayment, value.downPaymentPercentage, value.loanProgram, value.interestRate)
+    console.log(newCalculator)
+    this.calcService.updateInputs(newCalculator)
+    this.calcService.calculateMonthlyPayment()
   }
 }

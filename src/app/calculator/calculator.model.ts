@@ -7,11 +7,11 @@ export class Calculator {
     public downPaymentPercentage: number,
     public loanProgram: number,
     public interestRate: number,
-    public propertyTax: number,
-    public propertyTaxRate: number,
-    public homeInsurance: number,
-    public hoaDues: number,
-    public pmi: string,
-    public taxesAndInsurance: string
+    public propertyTax?: number,
+    public propertyTaxRate?: number,
+    public homeInsurance?: number,
+    public hoaDues?: number,
+    public pmi?: string,
+    public taxesAndInsurance?: string
   ) {}
 }
