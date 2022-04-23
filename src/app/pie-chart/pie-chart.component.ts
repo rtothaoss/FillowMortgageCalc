@@ -1,8 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Chart} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { UIChart } from 'primeng/chart';
 import { Subscription } from 'rxjs';
 import { CalculatorService } from '../calculator/calculator.service';
+
+Chart.register(ChartDataLabels)
 
 @Component({
   selector: 'app-pie-chart',
@@ -71,6 +75,10 @@ export class PieChartComponent implements OnInit, OnDestroy {
           font: {
             weight: 'bold',
           },
+          formatter: function(value: any, context: any) {
+            console.log(value)
+            return "$" + value.toFixed(2)
+          }
         },
         // display chart title
         title: {
