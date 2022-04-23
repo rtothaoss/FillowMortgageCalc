@@ -7,8 +7,8 @@ export class CalculatorService {
   monthlyPaymentChanged = new Subject<string>();
   monthlyInterestChanged = new Subject<number>();
   monthlyPrincipleChanged = new Subject<number>();
-  public monthlyInterest: number = 240;
-  public monthlyPrinciple: number = 833;
+  public monthlyInterest: number = 833;
+  public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
 
   public mortgageInputs: Calculator;
@@ -18,16 +18,18 @@ export class CalculatorService {
   }
   
   getMonthlyPrinciple() {
+    console.log('monthly princ')
     return this.monthlyPrinciple;
   }
 
   getMonthlyInterest() {
+    console.log('monthly interest')
     return this.monthlyInterest;
   }
 
   updateInputs(mortgageInputs: Calculator) {
     this.mortgageInputs = mortgageInputs;
-    console.log(this.mortgageInputs)
+    this.calculateMonthlyPayment()
   }
 
   calculateMonthlyPayment() {
@@ -44,6 +46,7 @@ export class CalculatorService {
       let monthlyInterest = principle * interest
       let monthlyPrinciple = monthlyPayments - monthlyInterest
 
+      
 
     this.monthlyPayment = monthlyPayments.toFixed(2);
     this.monthlyPaymentChanged.next(this.monthlyPayment);

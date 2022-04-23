@@ -1,13 +1,12 @@
-<div id="chart">
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [labels]="chartOptions.labels"
-      [responsive]="chartOptions.responsive"
-      [dataLabels]="chartOptions.dataLabels"
-    ></apx-chart>
-  </div>
-  <div>
-    <h1>Total</h1>
-    <h5>{{monthlyPayments}}</h5>
-  </div>
+  
+  <p-panel>
+          <p-chart #chart type="pie" [data]="userAppData" [options]="options"></p-chart>
+</p-panel>
+
+<div>
+
+  <h1>Total</h1>
+  <h5>{{monthlyPayments}}</h5>
+</div>
+
+ 

@@ -1,21 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ApexDataLabels, ChartComponent } from 'ng-apexcharts';
 
-import {
-  ApexNonAxisChartSeries,
-  ApexResponsive,
-  ApexChart,
-} from 'ng-apexcharts';
+import { UIChart } from 'primeng/chart';
 import { Subscription } from 'rxjs';
 import { CalculatorService } from '../calculator/calculator.service';
-
-export type ChartOptions = {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  responsive: ApexResponsive[];
-  dataLabels: ApexDataLabels;
-  labels: any;
-};
 
 @Component({
   selector: 'app-pie-chart',
@@ -23,76 +10,87 @@ export type ChartOptions = {
   styleUrls: ['./pie-chart.component.css'],
 })
 export class PieChartComponent implements OnInit, OnDestroy {
-  @ViewChild('chart') chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions> | any;
-  principal: number = 1299;
-  taxes: number = 333;
-  insurance: number = 105;
-  hoa: number = 200;
-  private monthlyPaymentChangeSub: Subscription
-  monthlyPayments = ''
-  private monthlyPrincipleChangeSub: Subscription
+  @ViewChild('chart') chart: UIChart;
+  private monthlyPaymentChangeSub: Subscription;
+  monthlyPayments = '';
+  private monthlyPrincipleChangeSub: Subscription;
   monthlyPrinciple: number;
-  private monthlyInterestChangeSub: Subscription
+  private monthlyInterestChangeSub: Subscription;
   monthlyInterest: number;
+
+  public userAppData: any;
+
+  public options: any;
+  public userUsageHoursData: any;
+
+  ngOnInit(): void {
+    this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
+    this.monthlyPrincipleChangeSub =
+      this.calcService.monthlyPrincipleChanged.subscribe((value) => {
+        this.monthlyPrinciple = +value;
+      });
+
+    this.monthlyInterest = this.calcService.getMonthlyInterest();
+    this.monthlyInterestChangeSub =
+      this.calcService.monthlyInterestChanged.subscribe((value) => {
+        this.monthlyInterest = +value;
+      });
+
+    this.monthlyPayments = this.calcService.getMonthlyPayment();
+    this.monthlyPaymentChangeSub =
+      this.calcService.monthlyPaymentChanged.subscribe((value) => {
+        this.monthlyPayments = value;
+        this.constructChart();
+      });
+
+    this.constructChart();
+  }
 
   constructor(private calcService: CalculatorService) {}
 
-  ngOnInit(): void {
-
-    this.monthlyPayments = this.calcService.getMonthlyPayment()
-    this.monthlyPaymentChangeSub = this.calcService.monthlyPaymentChanged.subscribe((value) => {
-      this.monthlyPayments = value;
-    })
-
-    this.monthlyPrinciple = this.calcService.getMonthlyPrinciple()
-    this.monthlyPrincipleChangeSub = this.calcService.monthlyPrincipleChanged.subscribe((value) => {
-      this.monthlyPrinciple = +value;
-    })
-    this.monthlyInterest = this.calcService.getMonthlyInterest()
-    this.monthlyInterestChangeSub = this.calcService.monthlyInterestChanged.subscribe((value) => {
-      this.monthlyInterest = +value;
-    })
-
-    this.chartOptions = {
-      dataLabels: {
-        enabled: true,
-        formatter(value: any, opts: any): any {
-          return '$' + opts.w.config.series[opts.seriesIndex];
-        },
-      },
-      series: [this.monthlyPrinciple, this.monthlyInterest],
-      chart: {
-        type: 'donut',
-      },
+  constructChart() {
+    this.userAppData = {
       labels: ['Principle', 'Interest'],
-      responsive: [
+      datasets: [
         {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
+          data: [this.monthlyPrinciple, this.monthlyInterest],
+          backgroundColor: ['#ff0000', '#0000FF'],
         },
       ],
     };
+
+    this.options = {
+      //display labels on data elements in graph
+      plugins: {
+        datalabels: {
+          align: 'end',
+          anchor: 'end',
+          borderRadius: 4,
+          backgroundColor: 'teal',
+          color: 'white',
+          font: {
+            weight: 'bold',
+          },
+        },
+        // display chart title
+        title: {
+          display: true,
+          fontSize: 16,
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    };
   }
 
-  public updateSeries() {
-    this.chartOptions.series = [{
-      data: [23, 44,]
-    }];
+  onUpdate() {
+    console.log('it works');
   }
-
 
   ngOnDestroy(): void {
-      this.monthlyPaymentChangeSub.unsubscribe()
-      this.monthlyInterestChangeSub.unsubscribe()
-      this.monthlyPrincipleChangeSub.unsubscribe()
+    this.monthlyPaymentChangeSub.unsubscribe();
+    this.monthlyInterestChangeSub.unsubscribe();
+    this.monthlyPrincipleChangeSub.unsubscribe();
   }
-
 }

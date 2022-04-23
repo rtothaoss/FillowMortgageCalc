@@ -78,6 +78,6 @@ export class CalculatorComponent implements OnInit {
 
   onCalculate() {
     this.onUpdateInputs();
-    this.calcService.calculateMonthlyPayment();
+    
   }
 }
