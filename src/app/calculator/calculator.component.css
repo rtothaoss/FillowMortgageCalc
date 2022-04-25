@@ -2,6 +2,15 @@
     min-width: 95%
   }
 
+
   .p-downpayment{
-      width: 76%;
+     min-width: 74%;
+  }
+
+  .p-interestRate {
+      min-width: 20%
+  }
+
+  .p-propertyTax {
+      min-width: 70%
   }

@@ -1,6 +1,6 @@
-<form [formGroup]="myForm">
+<form [formGroup]="myForm" class="w-96">
   <div>
-    <h5 for="homePrice">Home Price</h5>
+    <h5 for="homePrice" class="titleFont">Home Price</h5>
     <p-inputNumber
       formControlName="homePrice"
       prefix="$"
@@ -9,8 +9,9 @@
       class="p-autocomplete"
     ></p-inputNumber>
   </div>
+
   <div>
-    <h5 for="downPayment">Down Payment</h5>
+    <h5 for="downPayment" class="titleFont">Down Payment</h5>
     <div class="flex">
       <p-inputNumber
         formControlName="downPayment"
@@ -34,35 +35,40 @@
   </div>
 
   <div>
-    <h5>Loan Program</h5>
+    <h5 class="titleFont">Loan Program</h5>
     <p-dropdown
       optionLabel="name"
       [options]="loanPrograms"
       optionValue="code"
       formControlName="loanProgram"
-      [style]="{'minWidth':'95%'}"
+      [style]="{ minWidth: '95%' }"
     ></p-dropdown>
   </div>
 
   <div>
-    <h5 for="interestRate">Interest Rate</h5>
-    <span class="p-input-icon-right" [style]="{'minWidth':'95%'}">
+    <h5 for="interestRate" class="titleFont">Interest Rate</h5>
+    <span class="p-input-icon-right" [style]="{ minWidth: '95%' }">
       <i class="pi pi-percentage"></i>
-      <input type="text" pInputText formControlName="interestRate" [style]="{'minWidth':'100%'}"/>
+      <input
+        type="text"
+        pInputText
+        formControlName="interestRate"
+        [style]="{ minWidth: '100%' }"
+      />
     </span>
   </div>
 </form>
 
-<div class="block">
-  <div class="mr-5">
+
+  <div>
     <h5 for="toggleSection">{{ isVisible ? "Advanced" : "Basic" }}</h5>
     <p-inputSwitch (click)="toggleSection()">Advanced</p-inputSwitch>
   </div>
-</div>
 
-<div class="{{ isVisible ? 'visible' : 'invisible' }}">
+
   <form [formGroup]="myForm">
-    <div>
+    <div class="{{ isVisible ? 'visible' : 'invisible' }}">
+    <div class="pt-5 pb-5">
       <p-checkbox
         name="pmi"
         value="pmi"
@@ -70,7 +76,7 @@
         formControlName="pmi"
       ></p-checkbox>
     </div>
-    <div>
+    <div class="pb-5">
       <p-checkbox
         name="taxes"
         value="taxes"
@@ -78,31 +84,72 @@
         formControlName="taxesAndInsurance"
       ></p-checkbox>
     </div>
-    <div class="form-group">
-      <h5 for="propertyTax">Property Tax</h5>
+
+    <!-- <div>
+      <h5 for="propertyTax" class="titleFont">Property Tax</h5>
       <div class="flex">
         <p-inputNumber
           formControlName="propertyTax"
-          class="appearance-none block w-3/4"
           prefix="$"
+          [style]="{ width: '100%' }"
+          [inputStyle]="{ width: '100%' }"
+          class="p-downpayment"
         ></p-inputNumber>
+
+        <div>
+          <span class="p-input-icon-right" >
+            <i class="pi pi-percentage"></i>
+            <input type="text" pInputText formControlName="propertyTaxRate"/>
+          </span>
+        </div>
+      </div>
+    </div> -->
+
+    <div>
+      <h5 for="propertyTax" class="titleFont">Property Tax</h5>
+      <div class="flex">
+        <p-inputNumber
+          formControlName="propertyTax"
+          class=""
+          prefix="$"
+          [style]="{ width: '100%' }"
+          [inputStyle]="{ width: '100%' }"
+          class="p-propertyTax"
+        ></p-inputNumber>
+  
         <span class="p-input-icon-right">
           <i class="pi pi-percentage"></i>
-          <input type="text" pInputText formControlName="propertyTaxRate" />
+          <input
+            type="text"
+            pInputText
+            formControlName="propertyTaxRate"
+            class="w-24"
+          />
         </span>
       </div>
-      <h5 for="homeInsurance">Home Insurance</h5>
+    </div>
+
+    <div>
+      <h5 for="homeInsurance" class="titleFont">Home Insurance</h5>
       <p-inputNumber
         formControlName="homeInsurance"
         class="appearance-none block w-full"
         prefix="$"
-      ></p-inputNumber>
-      <h5 for="homePrice">HOA</h5>
-      <p-inputNumber
-        formControlName="hoaDues"
-        class="appearance-none block w-full"
-        prefix="$"
+        [style]="{ width: '100%' }"
+        [inputStyle]="{ width: '100%' }"
+        class="p-autocomplete"
       ></p-inputNumber>
     </div>
-  </form>
+    <div class="mb-6">
+    <h5 for="homePrice" class="titleFont">HOA</h5>
+    <p-inputNumber
+      formControlName="hoaDues"
+      class="appearance-none block w-full"
+      prefix="$"
+      [style]="{ width: '100%' }"
+      [inputStyle]="{ width: '100%' }"
+      class="p-autocomplete"
+    ></p-inputNumber>
+  </div>
 </div>
+</form>

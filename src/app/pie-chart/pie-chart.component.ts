@@ -3,7 +3,7 @@ import {Chart} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { UIChart } from 'primeng/chart';
-import { Subscription } from 'rxjs';
+import { Subscription, withLatestFrom } from 'rxjs';
 import { CalculatorService } from '../calculator/calculator.service';
 
 Chart.register(ChartDataLabels)
@@ -58,7 +58,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       datasets: [
         {
           data: [this.monthlyPrinciple, this.monthlyInterest],
-          backgroundColor: ['#2F4858', '#F6AE2D'],
+          backgroundColor: ['#4C5760', '#66635B'],
         },
       ],
     };
@@ -70,14 +70,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
           align: 'end',
           anchor: 'end',
           borderRadius: 4,
-          backgroundColor: '#33658A',
+          backgroundColor: '#93A8AC',
           color: 'white',
           font: {
             weight: 'bold',
           },
           formatter: function(value: any, context: any) {
             console.log(value)
-            return "$" + value.toFixed(2)
+            return "$" + value
           }
         },
         // display chart title
