@@ -1,103 +1,108 @@
-<div>
-  <form [formGroup]="myForm">
+<form [formGroup]="myForm">
+  <div>
     <h5 for="homePrice">Home Price</h5>
     <p-inputNumber
       formControlName="homePrice"
-      class="form-control appearance-none block w-full"
-      mode="currency"
-      currency="USD"
-      
+      prefix="$"
+      [style]="{ width: '100%' }"
+      [inputStyle]="{ width: '100%' }"
+      class="p-autocomplete"
     ></p-inputNumber>
-
+  </div>
+  <div>
     <h5 for="downPayment">Down Payment</h5>
     <div class="flex">
       <p-inputNumber
         formControlName="downPayment"
-        class="form-control appearance-none block w-3/4"
-        mode="currency"
-        currency="USD"
+        class=""
+        prefix="$"
+        [style]="{ width: '100%' }"
+        [inputStyle]="{ width: '100%' }"
+        class="p-downpayment"
       ></p-inputNumber>
+
       <span class="p-input-icon-right">
         <i class="pi pi-percentage"></i>
-        <input type="text" pInputText formControlName="downPaymentPercentage" />
+        <input
+          type="text"
+          pInputText
+          formControlName="downPaymentPercentage"
+          class="w-20"
+        />
       </span>
     </div>
-    <div>
-      <h5>Loan Program</h5>
-      <p-dropdown
-        optionLabel="name"
-        [options]="loanPrograms"
-        formControlName="loanProgram"
-      ></p-dropdown>
-    </div>
+  </div>
 
+  <div>
+    <h5>Loan Program</h5>
+    <p-dropdown
+      optionLabel="name"
+      [options]="loanPrograms"
+      optionValue="code"
+      formControlName="loanProgram"
+      [style]="{'minWidth':'95%'}"
+    ></p-dropdown>
+  </div>
+
+  <div>
     <h5 for="interestRate">Interest Rate</h5>
-    <span class="p-input-icon-right">
+    <span class="p-input-icon-right" [style]="{'minWidth':'95%'}">
       <i class="pi pi-percentage"></i>
-      <input type="text" pInputText formControlName="interestRate" />
+      <input type="text" pInputText formControlName="interestRate" [style]="{'minWidth':'100%'}"/>
     </span>
-  </form>
-</div>
-<div class="{{!isVisible ? 'flex' : 'block'}}">
+  </div>
+</form>
+
+<div class="block">
   <div class="mr-5">
     <h5 for="toggleSection">{{ isVisible ? "Advanced" : "Basic" }}</h5>
     <p-inputSwitch (click)="toggleSection()">Advanced</p-inputSwitch>
   </div>
+</div>
 
-  <div *ngIf="this.isVisible">
-    <form [formGroup]="myForm">
-      <div>
-        <p-checkbox
-          name="pmi"
-          value="pmi"
-          label="Include PMI"
-          formControlName="pmi"
-        ></p-checkbox>
-      </div>
-      <div>
-        <p-checkbox
-          name="taxes"
-          value="taxes"
-          label="Include Taxes and Insurance"
-          formControlName="taxesAndInsurance"
-        ></p-checkbox>
-      </div>
-      <div class="form-group">
-        <h5 for="propertyTax">Property Tax</h5>
-        <div class="flex">
-          <p-inputNumber
-            formControlName="propertyTax"
-            class="form-control appearance-none block w-3/4"
-            mode="currency"
-            currency="USD"
-          ></p-inputNumber>
-          <span class="p-input-icon-right">
-            <i class="pi pi-percentage"></i>
-            <input type="text" pInputText formControlName="propertyTaxRate" />
-          </span>
-        </div>
-        <h5 for="homeInsurance">Home Insurance</h5>
+<div class="{{ isVisible ? 'visible' : 'invisible' }}">
+  <form [formGroup]="myForm">
+    <div>
+      <p-checkbox
+        name="pmi"
+        value="pmi"
+        label="Include PMI"
+        formControlName="pmi"
+      ></p-checkbox>
+    </div>
+    <div>
+      <p-checkbox
+        name="taxes"
+        value="taxes"
+        label="Include Taxes and Insurance"
+        formControlName="taxesAndInsurance"
+      ></p-checkbox>
+    </div>
+    <div class="form-group">
+      <h5 for="propertyTax">Property Tax</h5>
+      <div class="flex">
         <p-inputNumber
-          formControlName="homeInsurance"
-          class="form-control appearance-none block w-full"
-          mode="currency"
-          currency="USD"
+          formControlName="propertyTax"
+          class="appearance-none block w-3/4"
+          prefix="$"
         ></p-inputNumber>
-        <h5 for="homePrice">HOA</h5>
-        <p-inputNumber
-          formControlName="hoaDues"
-          class="form-control appearance-none block w-full"
-          mode="currency"
-          currency="USD"
-        ></p-inputNumber>
+        <span class="p-input-icon-right">
+          <i class="pi pi-percentage"></i>
+          <input type="text" pInputText formControlName="propertyTaxRate" />
+        </span>
       </div>
-    </form>
-  </div>
-  <button
-    pButton
-    type="button"
-    label="Calculate"
-    class="p-button-outlined"
-    (click)=onCalculate()
-  ></button>
+      <h5 for="homeInsurance">Home Insurance</h5>
+      <p-inputNumber
+        formControlName="homeInsurance"
+        class="appearance-none block w-full"
+        prefix="$"
+      ></p-inputNumber>
+      <h5 for="homePrice">HOA</h5>
+      <p-inputNumber
+        formControlName="hoaDues"
+        class="appearance-none block w-full"
+        prefix="$"
+      ></p-inputNumber>
+    </div>
+  </form>
 </div>

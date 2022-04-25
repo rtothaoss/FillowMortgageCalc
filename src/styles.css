@@ -4,13 +4,16 @@
 @import 'tailwindcss/utilities';
 
 
-
-@layer components {
+/* @layer components {
     .repeating-input {
-       @apply bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white
+       @apply bg-gray-200 text-red-400 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white
     }
+} */
+
+html, body { 
+    height: 100%; 
+    width: 100%; 
 }
-
-
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+

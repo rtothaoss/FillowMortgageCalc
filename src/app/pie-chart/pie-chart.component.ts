@@ -58,7 +58,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       datasets: [
         {
           data: [this.monthlyPrinciple, this.monthlyInterest],
-          backgroundColor: ['#ff0000', '#0000FF'],
+          backgroundColor: ['#2F4858', '#F6AE2D'],
         },
       ],
     };
@@ -70,7 +70,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
           align: 'end',
           anchor: 'end',
           borderRadius: 4,
-          backgroundColor: 'teal',
+          backgroundColor: '#33658A',
           color: 'white',
           font: {
             weight: 'bold',

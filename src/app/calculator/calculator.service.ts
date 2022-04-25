@@ -33,6 +33,7 @@ export class CalculatorService {
   }
 
   calculateMonthlyPayment() {
+    console.log(this.mortgageInputs.loanProgram)
     let principle =
       this.mortgageInputs.homePrice - this.mortgageInputs.downPayment;
     let interest = (this.mortgageInputs.interestRate / 100) / 12;

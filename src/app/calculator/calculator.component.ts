@@ -40,7 +40,7 @@ export class CalculatorComponent implements OnInit {
       homePrice: [250000, Validators.required],
       downPayment: [50000, Validators.required],
       downPaymentPercentage: [20, Validators.required],
-      loanProgram: ['30', Validators.required],
+      loanProgram: [30, Validators.required],
       interestRate: [5, Validators.required],
       propertyTax: [3990],
       propertyTaxRate: [1.33],
