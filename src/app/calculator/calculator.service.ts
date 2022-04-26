@@ -7,36 +7,44 @@ export class CalculatorService {
   monthlyPaymentChanged = new Subject<string>();
   monthlyInterestChanged = new Subject<number>();
   monthlyPrincipleChanged = new Subject<number>();
+  hoaChanged = new Subject<number>();
+
   public monthlyInterest: number = 833;
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
+  public hoa: number = -1
 
   public mortgageInputs: Calculator;
 
   getMonthlyPayment() {
     return this.monthlyPayment;
   }
-  
+
   getMonthlyPrinciple() {
-    console.log('monthly princ')
+    console.log('monthly princ');
     return this.monthlyPrinciple;
   }
 
   getMonthlyInterest() {
-    console.log('monthly interest')
+    console.log('monthly interest');
     return this.monthlyInterest;
+  }
+
+  getHoaDues() {
+    console.log('hoa')
+    return this.hoa
   }
 
   updateInputs(mortgageInputs: Calculator) {
     this.mortgageInputs = mortgageInputs;
-    this.calculateMonthlyPayment()
+    this.calculateMonthlyPayment();
   }
 
   calculateMonthlyPayment() {
-    console.log(this.mortgageInputs.loanProgram)
+    console.log(this.mortgageInputs);
     let principle =
       this.mortgageInputs.homePrice - this.mortgageInputs.downPayment;
-    let interest = (this.mortgageInputs.interestRate / 100) / 12;
+    let interest = this.mortgageInputs.interestRate / 100 / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;
 
@@ -44,12 +52,17 @@ export class CalculatorService {
       (principle * Math.pow(updatedInterest, numberOfPeriods) * interest) /
       (Math.pow(updatedInterest, numberOfPeriods) - 1);
 
-      let monthlyInterest = principle * interest
-      let monthlyPrinciple = monthlyPayments - monthlyInterest
+    let monthlyInterest = principle * interest;
+    let monthlyPrinciple = monthlyPayments - monthlyInterest;
 
-      
+    if (this.mortgageInputs.hoaDues) {
+      monthlyPayments += this.mortgageInputs.hoaDues;
+      this.hoa = this.mortgageInputs.hoaDues
+      this.hoaChanged.next(this.hoa)
+    }
 
     this.monthlyPayment = monthlyPayments.toFixed(2);
+    console.log(this.monthlyPayment)
     this.monthlyPaymentChanged.next(this.monthlyPayment);
 
     this.monthlyInterest = monthlyInterest;

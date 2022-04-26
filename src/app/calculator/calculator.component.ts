@@ -42,10 +42,10 @@ export class CalculatorComponent implements OnInit {
       downPaymentPercentage: [20, Validators.required],
       loanProgram: [30, Validators.required],
       interestRate: [5, Validators.required],
-      propertyTax: [3990],
-      propertyTaxRate: [1.33],
-      homeInsurance: [1260],
-      hoaDues: [200],
+      propertyTax: [0],
+      propertyTaxRate: [0],
+      homeInsurance: [0],
+      hoaDues: [0],
       pmi: new FormControl('', []),
       taxesAndInsurance: new FormControl('', []),
     });
@@ -71,7 +71,11 @@ export class CalculatorComponent implements OnInit {
       value.downPayment,
       value.downPaymentPercentage,
       value.loanProgram,
-      value.interestRate
+      value.interestRate,
+      value.propertyTax,
+      value.propertyTaxRate,
+      value.homeInsurance,
+      value.hoaDues
     );
     this.calcService.updateInputs(newCalculator);
   }

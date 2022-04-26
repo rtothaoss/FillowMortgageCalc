@@ -8,6 +8,10 @@ import { CalculatorService } from '../calculator/calculator.service';
 
 Chart.register(ChartDataLabels)
 
+
+
+
+
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
@@ -21,6 +25,10 @@ export class PieChartComponent implements OnInit, OnDestroy {
   monthlyPrinciple: number;
   private monthlyInterestChangeSub: Subscription;
   monthlyInterest: number;
+  private hoaChangeSub: Subscription;
+  hoa: number
+  
+  
 
   public userAppData: any;
 
@@ -28,6 +36,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   public userUsageHoursData: any;
 
   ngOnInit(): void {
+
     this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
     this.monthlyPrincipleChangeSub =
       this.calcService.monthlyPrincipleChanged.subscribe((value) => {
@@ -40,12 +49,18 @@ export class PieChartComponent implements OnInit, OnDestroy {
         this.monthlyInterest = +value;
       });
 
+    this.hoa = this.calcService.getHoaDues();
+    this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
+      this.hoa = value
+    })
+
     this.monthlyPayments = this.calcService.getMonthlyPayment();
     this.monthlyPaymentChangeSub =
       this.calcService.monthlyPaymentChanged.subscribe((value) => {
         this.monthlyPayments = value;
         this.constructChart();
       });
+ 
 
     this.constructChart();
   }
@@ -53,12 +68,21 @@ export class PieChartComponent implements OnInit, OnDestroy {
   constructor(private calcService: CalculatorService) {}
 
   constructChart() {
+
+    let dataValues = [this.monthlyPrinciple.toFixed(0), this.monthlyInterest.toFixed(0)]
+    let chartLabels: Array<string> = ['Principle', 'Interest']
+    
+    if(this.hoa > 0) {
+      dataValues.push(this.hoa.toFixed(0))
+      chartLabels.push('HOA')
+    }
+    
     this.userAppData = {
-      labels: ['Principle', 'Interest'],
+      labels: chartLabels,
       datasets: [
         {
-          data: [this.monthlyPrinciple, this.monthlyInterest],
-          backgroundColor: ['#4C5760', '#66635B'],
+          data: dataValues,
+          backgroundColor: ['#4C5760', '#66635B', '#93A8AC'],
         },
       ],
     };
@@ -68,15 +92,15 @@ export class PieChartComponent implements OnInit, OnDestroy {
       plugins: {
         datalabels: {
           align: 'end',
-          anchor: 'end',
+          anchor: 'center',
           borderRadius: 4,
-          backgroundColor: '#93A8AC',
+          backgroundColor:'rgba(0,0,0,0)',
           color: 'white',
           font: {
             weight: 'bold',
           },
           formatter: function(value: any, context: any) {
-            console.log(value)
+            
             return "$" + value
           }
         },
@@ -100,5 +124,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.monthlyPaymentChangeSub.unsubscribe();
     this.monthlyInterestChangeSub.unsubscribe();
     this.monthlyPrincipleChangeSub.unsubscribe();
+    this.hoaChangeSub.unsubscribe();
   }
 }
