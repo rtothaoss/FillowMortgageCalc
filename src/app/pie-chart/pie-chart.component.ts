@@ -82,7 +82,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       datasets: [
         {
           data: dataValues,
-          backgroundColor: ['#4C5760', '#66635B', '#93A8AC'],
+          backgroundColor: ['#0081A7', '#00AFB9', '#F07167', '#FED9B7', '#FDFCDC'],
         },
       ],
     };
