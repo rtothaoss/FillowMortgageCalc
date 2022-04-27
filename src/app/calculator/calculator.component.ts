@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Calculator } from './calculator.model';
 
 import {
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CalculatorService } from './calculator.service';
+import { Subscription } from 'rxjs';
 
 interface LoanPrograms {
   name: string;
@@ -19,10 +20,12 @@ interface LoanPrograms {
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.css'],
 })
-export class CalculatorComponent implements OnInit {
+export class CalculatorComponent implements OnInit, OnDestroy {
   public isVisible = false;
   myForm: FormGroup;
   loanPrograms: LoanPrograms[];
+  private downPaymentChangeSub: Subscription;
+  private downPaymentPercentageSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +33,20 @@ export class CalculatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.downPaymentChangeSub = this.calcService.downPaymentChanged.subscribe((value) => {
+      console.log(value)
+      this.myForm.patchValue({
+        downPayment: value
+      }, {emitEvent: false, onlySelf: true})
+    })
+
+    this.downPaymentPercentageSub = this.calcService.downPaymentPercentageChanged.subscribe((value) => {
+      this.myForm.patchValue({
+        downPaymentPercentage: value
+      }, {emitEvent: false, onlySelf: true})
+    })
+
     this.loanPrograms = [
       { name: '30 Year Fixed', code: '30' },
       { name: '15 Year Fixed', code: '15' },
@@ -38,8 +55,8 @@ export class CalculatorComponent implements OnInit {
 
     this.myForm = this.fb.group({
       homePrice: [250000, Validators.required],
-      downPayment: [50000, Validators.required],
-      downPaymentPercentage: [20, Validators.required],
+      downPayment: [0, Validators.required],
+      downPaymentPercentage: [0, Validators.required],
       loanProgram: [30, Validators.required],
       interestRate: [5, Validators.required],
       propertyTax: [0],
@@ -86,4 +103,9 @@ export class CalculatorComponent implements OnInit {
   //   this.onUpdateInputs();
     
   // }
+
+  ngOnDestroy(): void {
+    this.downPaymentChangeSub.unsubscribe();
+    this.downPaymentPercentageSub.unsubscribe();
+  }
 }

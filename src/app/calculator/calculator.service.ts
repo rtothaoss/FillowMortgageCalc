@@ -10,6 +10,8 @@ export class CalculatorService {
   hoaChanged = new Subject<number>();
   taxesChanged = new Subject<number>();
   homeInsuranceChanged = new Subject<number>();
+  downPaymentChanged = new Subject<number>();
+  downPaymentPercentageChanged = new Subject<number>();
 
   public monthlyInterest: number = 833;
   public monthlyPrinciple: number = 240;
@@ -17,6 +19,8 @@ export class CalculatorService {
   public hoa: number = -1;
   public taxes: number 
   public homeInsurance: number 
+  public downPayment: number
+  public downPaymentPercentage: number
 
   public mortgageInputs: Calculator;
 
@@ -48,9 +52,23 @@ export class CalculatorService {
 
 
   calculateMonthlyPayment() {
-    console.log(this.mortgageInputs);
+    this.downPayment = this.mortgageInputs.downPayment
+    console.log('this is down payment : ' + this.downPayment)
+    console.log('this is mortgage inputs down payment : ' + this.mortgageInputs.downPayment)
+
+    if(this.downPaymentPercentage != this.mortgageInputs.downPaymentPercentage) {
+      let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
+      this.downPayment = this.mortgageInputs.homePrice * downPercentage
+      this.downPaymentChanged.next(this.downPayment)
+    }
+
+    this.downPaymentPercentage = this.downPayment / this.mortgageInputs.homePrice * 100
+    this.downPaymentPercentageChanged.next(this.downPaymentPercentage)
+    
+
+
     let principle =
-      this.mortgageInputs.homePrice - this.mortgageInputs.downPayment;
+      this.mortgageInputs.homePrice - this.downPayment;
     let interest = this.mortgageInputs.interestRate / 100 / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;

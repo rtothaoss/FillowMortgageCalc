@@ -31,6 +31,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   taxes: number
   private homeInsuranceChangeSub: Subscription;
   homeInsurance: number
+
   
   
 
@@ -54,6 +55,8 @@ export class PieChartComponent implements OnInit, OnDestroy {
         console.log(this.monthlyInterest)
         this.monthlyInterest = +value;
       });
+
+   
 
     this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
       this.hoa = value
@@ -153,5 +156,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.hoaChangeSub.unsubscribe();
     this.taxesChangeSub.unsubscribe();
     this.homeInsuranceChangeSub.unsubscribe();
+  
   }
 }

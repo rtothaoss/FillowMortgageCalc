@@ -70,7 +70,7 @@
     <div class="{{ isVisible ? 'visible' : 'invisible' }}">
 
     <div>
-      <h5 for="propertyTax" class="titleFont">Property Tax</h5>
+      <h5 for="propertyTax" class="titleFont">Property Tax /year</h5>
       <div class="flex">
         <p-inputNumber
           formControlName="propertyTax"
@@ -95,7 +95,7 @@
     </div>
 
     <div>
-      <h5 for="homeInsurance" class="titleFont">Home Insurance</h5>
+      <h5 for="homeInsurance" class="titleFont">Home Insurance /year</h5>
       <p-inputNumber
         formControlName="homeInsurance"
         class="appearance-none block w-full"
@@ -105,9 +105,10 @@
         [inputStyle]="{ width: '100%' }"
         class="p-autocomplete"
       ></p-inputNumber>
+      <!-- <p class=>/year</p> FIGURE THIS OUT -->
     </div>
     <div class="mb-6">
-    <h5 for="homePrice" class="titleFont">HOA</h5>
+    <h5 for="homePrice" class="titleFont">HOA /month</h5>
     <p-inputNumber
       formControlName="hoaDues"
       class="appearance-none block w-full"
