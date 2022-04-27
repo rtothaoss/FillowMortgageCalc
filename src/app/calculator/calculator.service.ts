@@ -12,7 +12,7 @@ export class CalculatorService {
   public monthlyInterest: number = 833;
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
-  public hoa: number = -1
+  public hoa: number = -1;
 
   public mortgageInputs: Calculator;
 
@@ -31,8 +31,8 @@ export class CalculatorService {
   }
 
   getHoaDues() {
-    console.log('hoa')
-    return this.hoa
+    console.log('hoa');
+    return this.hoa;
   }
 
   updateInputs(mortgageInputs: Calculator) {
@@ -55,14 +55,13 @@ export class CalculatorService {
     let monthlyInterest = principle * interest;
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
 
-    if (this.mortgageInputs.hoaDues) {
-      monthlyPayments += this.mortgageInputs.hoaDues;
-      this.hoa = this.mortgageInputs.hoaDues
-      this.hoaChanged.next(this.hoa)
-    }
+    
+    monthlyPayments += this.mortgageInputs.hoaDues;
+    this.hoa = this.mortgageInputs.hoaDues;
+    this.hoaChanged.next(this.hoa);
 
     this.monthlyPayment = monthlyPayments.toFixed(2);
-    console.log(this.monthlyPayment)
+    console.log(this.monthlyPayment);
     this.monthlyPaymentChanged.next(this.monthlyPayment);
 
     this.monthlyInterest = monthlyInterest;

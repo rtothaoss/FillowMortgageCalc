@@ -55,7 +55,6 @@ export class CalculatorComponent implements OnInit {
     this.myForm.valueChanges.subscribe((form) => {
       if (form) {
         this.onUpdateInputs();
-        this.onCalculate();
       }
     });
   }
@@ -72,16 +71,16 @@ export class CalculatorComponent implements OnInit {
       value.downPaymentPercentage,
       value.loanProgram,
       value.interestRate,
+      value.hoaDues,
       value.propertyTax,
       value.propertyTaxRate,
       value.homeInsurance,
-      value.hoaDues
     );
     this.calcService.updateInputs(newCalculator);
   }
 
-  onCalculate() {
-    this.onUpdateInputs();
+  // onCalculate() {
+  //   this.onUpdateInputs();
     
-  }
+  // }
 }

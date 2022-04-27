@@ -52,6 +52,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.hoa = this.calcService.getHoaDues();
     this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
       this.hoa = value
+      console.log('hoaChangeSub ' + this.hoa)
     })
 
     this.monthlyPayments = this.calcService.getMonthlyPayment();
@@ -71,11 +72,18 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
     let dataValues = [this.monthlyPrinciple.toFixed(0), this.monthlyInterest.toFixed(0)]
     let chartLabels: Array<string> = ['Principle', 'Interest']
+    console.log(dataValues)
+    console.log(this.hoa)
     
+    if(this.hoa === 0) {
+      dataValues.splice(2, 1)
+      chartLabels.splice(2,1)
+    }
     if(this.hoa > 0) {
       dataValues.push(this.hoa.toFixed(0))
       chartLabels.push('HOA')
     }
+    
     
     this.userAppData = {
       labels: chartLabels,
