@@ -55,6 +55,7 @@ export class CalculatorComponent implements OnInit {
     this.myForm.valueChanges.subscribe((form) => {
       if (form) {
         this.onUpdateInputs();
+        
       }
     });
   }
@@ -75,6 +76,8 @@ export class CalculatorComponent implements OnInit {
       value.propertyTax,
       value.propertyTaxRate,
       value.homeInsurance,
+      value.pmi,
+      value.taxesAndInsurance
     );
     this.calcService.updateInputs(newCalculator);
   }

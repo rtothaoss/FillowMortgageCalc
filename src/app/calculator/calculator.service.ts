@@ -8,11 +8,15 @@ export class CalculatorService {
   monthlyInterestChanged = new Subject<number>();
   monthlyPrincipleChanged = new Subject<number>();
   hoaChanged = new Subject<number>();
+  taxesChanged = new Subject<number>();
+  homeInsuranceChanged = new Subject<number>();
 
   public monthlyInterest: number = 833;
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
   public hoa: number = -1;
+  public taxes: number 
+  public homeInsurance: number 
 
   public mortgageInputs: Calculator;
 
@@ -21,24 +25,27 @@ export class CalculatorService {
   }
 
   getMonthlyPrinciple() {
-    console.log('monthly princ');
+    console.log('MONTHLY PRINCIPLE GETTER: ' + this.monthlyPrinciple)
     return this.monthlyPrinciple;
   }
 
   getMonthlyInterest() {
-    console.log('monthly interest');
+    console.log('MONTHLY INTEREST GETTER: ' + this.monthlyInterest)
     return this.monthlyInterest;
   }
 
-  getHoaDues() {
-    console.log('hoa');
-    return this.hoa;
+  getTaxesAndInsuranceIsActive() {
+    if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes'){
+      return true;
+    }
+    return false;
   }
 
   updateInputs(mortgageInputs: Calculator) {
     this.mortgageInputs = mortgageInputs;
     this.calculateMonthlyPayment();
   }
+
 
   calculateMonthlyPayment() {
     console.log(this.mortgageInputs);
@@ -56,18 +63,37 @@ export class CalculatorService {
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
 
     
+
+    if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
+      this.taxes = this.mortgageInputs.propertyTax / 12
+      this.homeInsurance = this.mortgageInputs.homeInsurance / 12
+      monthlyPayments += this.taxes 
+      monthlyPayments += this.homeInsurance
+      this.taxesChanged.next(this.taxes)
+      this.homeInsuranceChanged.next(this.homeInsurance)
+    }
+
+    if(this.mortgageInputs.taxesAndInsurance.length == 0) {
+      this.taxes = 0;
+      this.homeInsurance = 0;
+      this.taxesChanged.next(this.taxes)
+      this.homeInsuranceChanged.next(this.homeInsurance)
+    }
+
+   
     monthlyPayments += this.mortgageInputs.hoaDues;
     this.hoa = this.mortgageInputs.hoaDues;
     this.hoaChanged.next(this.hoa);
-
-    this.monthlyPayment = monthlyPayments.toFixed(2);
-    console.log(this.monthlyPayment);
-    this.monthlyPaymentChanged.next(this.monthlyPayment);
 
     this.monthlyInterest = monthlyInterest;
     this.monthlyInterestChanged.next(this.monthlyInterest);
 
     this.monthlyPrinciple = monthlyPrinciple;
     this.monthlyPrincipleChanged.next(this.monthlyPrinciple);
+
+    this.monthlyPayment = monthlyPayments.toFixed(2);
+    this.monthlyPaymentChanged.next(this.monthlyPayment);
+
+
   }
 }

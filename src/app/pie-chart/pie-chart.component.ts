@@ -27,6 +27,10 @@ export class PieChartComponent implements OnInit, OnDestroy {
   monthlyInterest: number;
   private hoaChangeSub: Subscription;
   hoa: number
+  private taxesChangeSub: Subscription;
+  taxes: number
+  private homeInsuranceChangeSub: Subscription;
+  homeInsurance: number
   
   
 
@@ -40,26 +44,35 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
     this.monthlyPrincipleChangeSub =
       this.calcService.monthlyPrincipleChanged.subscribe((value) => {
+        console.log(this.monthlyPrinciple)
         this.monthlyPrinciple = +value;
       });
 
     this.monthlyInterest = this.calcService.getMonthlyInterest();
     this.monthlyInterestChangeSub =
       this.calcService.monthlyInterestChanged.subscribe((value) => {
+        console.log(this.monthlyInterest)
         this.monthlyInterest = +value;
       });
 
-    this.hoa = this.calcService.getHoaDues();
     this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
       this.hoa = value
-      console.log('hoaChangeSub ' + this.hoa)
     })
-
+    this.taxesChangeSub = this.calcService.taxesChanged.subscribe((value) => {
+      this.taxes = value
+    })
+    this.homeInsuranceChangeSub = this.calcService.homeInsuranceChanged.subscribe((value) => {
+      this.homeInsurance = value
+    })
+    
     this.monthlyPayments = this.calcService.getMonthlyPayment();
     this.monthlyPaymentChangeSub =
       this.calcService.monthlyPaymentChanged.subscribe((value) => {
-        this.monthlyPayments = value;
-        this.constructChart();
+        if(this.monthlyPayments != value) {
+          this.monthlyPayments = value;
+          this.constructChart();
+        }
+        
       });
  
 
@@ -72,25 +85,30 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
     let dataValues = [this.monthlyPrinciple.toFixed(0), this.monthlyInterest.toFixed(0)]
     let chartLabels: Array<string> = ['Principle', 'Interest']
-    console.log(dataValues)
-    console.log(this.hoa)
-    
-    if(this.hoa === 0) {
-      dataValues.splice(2, 1)
-      chartLabels.splice(2,1)
-    }
+   
+   
     if(this.hoa > 0) {
       dataValues.push(this.hoa.toFixed(0))
       chartLabels.push('HOA')
     }
-    
+
+    if(this.taxes > 0) {
+      dataValues.push(this.taxes.toFixed(0))
+      chartLabels.push('Taxes')
+    }
+
+    if(this.homeInsurance > 0) {
+      dataValues.push(this.homeInsurance.toFixed(0))
+      chartLabels.push('Insurance')
+    }
+
     
     this.userAppData = {
       labels: chartLabels,
       datasets: [
         {
           data: dataValues,
-          backgroundColor: ['#0081A7', '#00AFB9', '#F07167', '#FED9B7', '#FDFCDC'],
+          backgroundColor: ['#5CC8FF', '#93867F', '#343633', '#7D70BA', '#DEC1FF'],
         },
       ],
     };
@@ -133,5 +151,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.monthlyInterestChangeSub.unsubscribe();
     this.monthlyPrincipleChangeSub.unsubscribe();
     this.hoaChangeSub.unsubscribe();
+    this.taxesChangeSub.unsubscribe();
+    this.homeInsuranceChangeSub.unsubscribe();
   }
 }
