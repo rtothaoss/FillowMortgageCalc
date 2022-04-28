@@ -1,16 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {Chart} from 'chart.js';
+import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { UIChart } from 'primeng/chart';
 import { Subscription, withLatestFrom } from 'rxjs';
 import { CalculatorService } from '../calculator/calculator.service';
 
-Chart.register(ChartDataLabels)
-
-
-
-
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-pie-chart',
@@ -26,14 +22,11 @@ export class PieChartComponent implements OnInit, OnDestroy {
   private monthlyInterestChangeSub: Subscription;
   monthlyInterest: number;
   private hoaChangeSub: Subscription;
-  hoa: number
+  hoa: number;
   private taxesChangeSub: Subscription;
-  taxes: number
+  taxes: number;
   private homeInsuranceChangeSub: Subscription;
-  homeInsurance: number
-
-  
-  
+  homeInsurance: number;
 
   public userAppData: any;
 
@@ -41,43 +34,39 @@ export class PieChartComponent implements OnInit, OnDestroy {
   public userUsageHoursData: any;
 
   ngOnInit(): void {
-
     this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
     this.monthlyPrincipleChangeSub =
       this.calcService.monthlyPrincipleChanged.subscribe((value) => {
-        console.log(this.monthlyPrinciple)
+        // console.log(this.monthlyPrinciple);
         this.monthlyPrinciple = +value;
       });
 
     this.monthlyInterest = this.calcService.getMonthlyInterest();
     this.monthlyInterestChangeSub =
       this.calcService.monthlyInterestChanged.subscribe((value) => {
-        console.log(this.monthlyInterest)
+        // console.log(this.monthlyInterest);
         this.monthlyInterest = +value;
       });
 
-   
-
     this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
-      this.hoa = value
-    })
+      this.hoa = value;
+    });
     this.taxesChangeSub = this.calcService.taxesChanged.subscribe((value) => {
-      this.taxes = value
-    })
-    this.homeInsuranceChangeSub = this.calcService.homeInsuranceChanged.subscribe((value) => {
-      this.homeInsurance = value
-    })
-    
+      this.taxes = value;
+    });
+    this.homeInsuranceChangeSub =
+      this.calcService.homeInsuranceChanged.subscribe((value) => {
+        this.homeInsurance = value;
+      });
+
     this.monthlyPayments = this.calcService.getMonthlyPayment();
     this.monthlyPaymentChangeSub =
       this.calcService.monthlyPaymentChanged.subscribe((value) => {
-        if(this.monthlyPayments != value) {
+        if (this.monthlyPayments != value) {
           this.monthlyPayments = value;
           this.constructChart();
         }
-        
       });
- 
 
     this.constructChart();
   }
@@ -85,33 +74,39 @@ export class PieChartComponent implements OnInit, OnDestroy {
   constructor(private calcService: CalculatorService) {}
 
   constructChart() {
+    let dataValues = [
+      this.monthlyPrinciple.toFixed(0),
+      this.monthlyInterest.toFixed(0),
+    ];
+    let chartLabels: Array<string> = ['Principle', 'Interest'];
 
-    let dataValues = [this.monthlyPrinciple.toFixed(0), this.monthlyInterest.toFixed(0)]
-    let chartLabels: Array<string> = ['Principle', 'Interest']
-   
-   
-    if(this.hoa > 0) {
-      dataValues.push(this.hoa.toFixed(0))
-      chartLabels.push('HOA')
+    if (this.hoa > 0) {
+      dataValues.push(this.hoa.toFixed(0));
+      chartLabels.push('HOA');
     }
 
-    if(this.taxes > 0) {
-      dataValues.push(this.taxes.toFixed(0))
-      chartLabels.push('Taxes')
+    if (this.taxes > 0) {
+      dataValues.push(this.taxes.toFixed(0));
+      chartLabels.push('Taxes');
     }
 
-    if(this.homeInsurance > 0) {
-      dataValues.push(this.homeInsurance.toFixed(0))
-      chartLabels.push('Insurance')
+    if (this.homeInsurance > 0) {
+      dataValues.push(this.homeInsurance.toFixed(0));
+      chartLabels.push('Insurance');
     }
 
-    
     this.userAppData = {
       labels: chartLabels,
       datasets: [
         {
           data: dataValues,
-          backgroundColor: ['#5CC8FF', '#93867F', '#343633', '#7D70BA', '#DEC1FF'],
+          backgroundColor: [
+            '#5CC8FF',
+            '#93867F',
+            '#343633',
+            '#7D70BA',
+            '#DEC1FF',
+          ],
         },
       ],
     };
@@ -123,15 +118,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
           align: 'end',
           anchor: 'center',
           borderRadius: 4,
-          backgroundColor:'rgba(0,0,0,0)',
+          backgroundColor: 'rgba(0,0,0,0)',
           color: 'white',
           font: {
             weight: 'bold',
           },
-          formatter: function(value: any, context: any) {
-            
-            return "$" + value
-          }
+          formatter: function (value: any, context: any) {
+            return '$' + value;
+          },
         },
         // display chart title
         title: {
@@ -156,6 +150,5 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.hoaChangeSub.unsubscribe();
     this.taxesChangeSub.unsubscribe();
     this.homeInsuranceChangeSub.unsubscribe();
-  
   }
 }

@@ -17,10 +17,11 @@ export class CalculatorService {
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
   public hoa: number = -1;
-  public taxes: number 
-  public homeInsurance: number 
-  public downPayment: number
-  public downPaymentPercentage: number
+  public taxes: number;
+  public homeInsurance: number;
+  public downPayment: number = 50000;
+  public downPaymentPercentage: number;
+  public homePrice: number = 0;
 
   public mortgageInputs: Calculator;
 
@@ -29,17 +30,17 @@ export class CalculatorService {
   }
 
   getMonthlyPrinciple() {
-    console.log('MONTHLY PRINCIPLE GETTER: ' + this.monthlyPrinciple)
+    // console.log('MONTHLY PRINCIPLE GETTER: ' + this.monthlyPrinciple);
     return this.monthlyPrinciple;
   }
 
   getMonthlyInterest() {
-    console.log('MONTHLY INTEREST GETTER: ' + this.monthlyInterest)
+    // console.log('MONTHLY INTEREST GETTER: ' + this.monthlyInterest);
     return this.monthlyInterest;
   }
 
   getTaxesAndInsuranceIsActive() {
-    if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes'){
+    if (this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
       return true;
     }
     return false;
@@ -50,25 +51,35 @@ export class CalculatorService {
     this.calculateMonthlyPayment();
   }
 
-
   calculateMonthlyPayment() {
-    this.downPayment = this.mortgageInputs.downPayment
-    console.log('this is down payment : ' + this.downPayment)
-    console.log('this is mortgage inputs down payment : ' + this.mortgageInputs.downPayment)
+    let principle = this.mortgageInputs.homePrice - this.downPayment; 
 
-    if(this.downPaymentPercentage != this.mortgageInputs.downPaymentPercentage) {
-      let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
-      this.downPayment = this.mortgageInputs.homePrice * downPercentage
-      this.downPaymentChanged.next(this.downPayment)
+    console.log(this.downPayment + ' this is down payment')
+    console.log(this.mortgageInputs.downPayment + ' this is mortgageinputs.downpayment')
+
+    if(this.downPayment != this.mortgageInputs.downPayment) {
+      this.downPaymentPercentage =
+      (this.mortgageInputs.downPayment / this.mortgageInputs.homePrice) * 100;
+    this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
+      principle = this.mortgageInputs.homePrice - this.mortgageInputs.downPayment
     }
-
-    this.downPaymentPercentage = this.downPayment / this.mortgageInputs.homePrice * 100
-    this.downPaymentPercentageChanged.next(this.downPaymentPercentage)
     
+    if(this.downPayment === this.mortgageInputs.downPayment){
 
+    let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
+    this.downPayment = this.mortgageInputs.homePrice * downPercentage;
 
-    let principle =
-      this.mortgageInputs.homePrice - this.downPayment;
+    this.downPaymentPercentage =
+      (this.downPayment / this.mortgageInputs.homePrice) * 100;
+
+      principle = this.mortgageInputs.homePrice - this.downPayment
+
+    this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
+    this.downPaymentChanged.next(this.downPayment);
+    }
+   
+    
+ 
     let interest = this.mortgageInputs.interestRate / 100 / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;
@@ -80,25 +91,22 @@ export class CalculatorService {
     let monthlyInterest = principle * interest;
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
 
-    
-
-    if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
-      this.taxes = this.mortgageInputs.propertyTax / 12
-      this.homeInsurance = this.mortgageInputs.homeInsurance / 12
-      monthlyPayments += this.taxes 
-      monthlyPayments += this.homeInsurance
-      this.taxesChanged.next(this.taxes)
-      this.homeInsuranceChanged.next(this.homeInsurance)
+    if (this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
+      this.taxes = this.mortgageInputs.propertyTax / 12;
+      this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
+      monthlyPayments += this.taxes;
+      monthlyPayments += this.homeInsurance;
+      this.taxesChanged.next(this.taxes);
+      this.homeInsuranceChanged.next(this.homeInsurance);
     }
 
-    if(this.mortgageInputs.taxesAndInsurance.length == 0) {
+    if (this.mortgageInputs.taxesAndInsurance.length == 0) {
       this.taxes = 0;
       this.homeInsurance = 0;
-      this.taxesChanged.next(this.taxes)
-      this.homeInsuranceChanged.next(this.homeInsurance)
+      this.taxesChanged.next(this.taxes);
+      this.homeInsuranceChanged.next(this.homeInsurance);
     }
 
-   
     monthlyPayments += this.mortgageInputs.hoaDues;
     this.hoa = this.mortgageInputs.hoaDues;
     this.hoaChanged.next(this.hoa);
@@ -111,7 +119,5 @@ export class CalculatorService {
 
     this.monthlyPayment = monthlyPayments.toFixed(2);
     this.monthlyPaymentChanged.next(this.monthlyPayment);
-
-
   }
 }

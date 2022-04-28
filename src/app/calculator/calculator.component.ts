@@ -33,19 +33,27 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.downPaymentChangeSub = this.calcService.downPaymentChanged.subscribe(
+      (value) => {
+        console.log(value);
+        this.myForm.patchValue(
+          {
+            downPayment: value,
+          },
+          { emitEvent: false, onlySelf: true }
+        );
+      }
+    );
 
-    this.downPaymentChangeSub = this.calcService.downPaymentChanged.subscribe((value) => {
-      console.log(value)
-      this.myForm.patchValue({
-        downPayment: value
-      }, {emitEvent: false, onlySelf: true})
-    })
-
-    this.downPaymentPercentageSub = this.calcService.downPaymentPercentageChanged.subscribe((value) => {
-      this.myForm.patchValue({
-        downPaymentPercentage: value
-      }, {emitEvent: false, onlySelf: true})
-    })
+    this.downPaymentPercentageSub =
+      this.calcService.downPaymentPercentageChanged.subscribe((value) => {
+        this.myForm.patchValue(
+          {
+            downPaymentPercentage: value,
+          },
+          { emitEvent: false, onlySelf: true }
+        );
+      });
 
     this.loanPrograms = [
       { name: '30 Year Fixed', code: '30' },
@@ -72,7 +80,6 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     this.myForm.valueChanges.subscribe((form) => {
       if (form) {
         this.onUpdateInputs();
-        
       }
     });
   }
@@ -101,7 +108,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
   // onCalculate() {
   //   this.onUpdateInputs();
-    
+
   // }
 
   ngOnDestroy(): void {
