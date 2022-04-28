@@ -55,8 +55,8 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
     this.myForm = this.fb.group({
       homePrice: [250000, Validators.required],
-      downPayment: [0, Validators.required],
-      downPaymentPercentage: [0, Validators.required],
+      downPayment: [50000, Validators.required],
+      downPaymentPercentage: [20, Validators.required],
       loanProgram: [30, Validators.required],
       interestRate: [5, Validators.required],
       propertyTax: [0],
