@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Calculator } from './calculator.model';
@@ -52,51 +53,52 @@ export class CalculatorService {
   }
 
   calculateMonthlyPayment() {
-    let principle = this.mortgageInputs.homePrice - this.downPayment; 
+    let principle = this.mortgageInputs.homePrice - this.downPayment;
 
+    if (this.homePrice != this.mortgageInputs.homePrice) {
 
-
-    if(this.downPaymentPercentage != this.mortgageInputs.downPaymentPercentage ) {
       let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
       this.downPayment = this.mortgageInputs.homePrice * downPercentage;
-  
+
       this.downPaymentPercentage =
         (this.downPayment / this.mortgageInputs.homePrice) * 100;
-  
-        principle = this.mortgageInputs.homePrice - this.downPayment
-  
+
+      principle = this.mortgageInputs.homePrice - this.downPayment;
+
       this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
       this.downPaymentChanged.next(this.downPayment);
-      console.log(this.downPayment)
-    }
 
-
-    if(this.downPayment != this.mortgageInputs.downPayment && this.downPaymentPercentage === this.mortgageInputs.downPaymentPercentage) {
+      this.homePrice = this.mortgageInputs.homePrice;
+    } else if (this.downPayment != this.mortgageInputs.downPayment ) {
+      
       this.downPaymentPercentage =
-      (this.mortgageInputs.downPayment / this.mortgageInputs.homePrice) * 100;
-    this.downPaymentPercentageChanged.next(+this.downPaymentPercentage.toFixed(2));
-    
-      principle = this.mortgageInputs.homePrice - this.mortgageInputs.downPayment
+        (this.mortgageInputs.downPayment / this.mortgageInputs.homePrice) * 100;
+      this.downPaymentPercentageChanged.next(
+        +this.downPaymentPercentage.toFixed(2)
+      );
+      principle =
+        this.mortgageInputs.homePrice - this.mortgageInputs.downPayment;
+
+        this.downPayment = this.mortgageInputs.downPayment
+    } else if (
+      this.downPaymentPercentage != this.mortgageInputs.downPaymentPercentage
+    ) {
+  
+      let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
+      this.downPayment = this.mortgageInputs.homePrice * downPercentage;
+
+      this.downPaymentPercentage =
+        (this.downPayment / this.mortgageInputs.homePrice) * 100;
+
+      principle = this.mortgageInputs.homePrice - this.downPayment;
+
+      this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
+      this.downPaymentChanged.next(this.downPayment);
+
+      this.homePrice = this.mortgageInputs.homePrice;
     }
 
 
-    
-    if(this.downPayment === this.mortgageInputs.downPayment){
-
-    let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
-    this.downPayment = this.mortgageInputs.homePrice * downPercentage;
-
-    this.downPaymentPercentage =
-      (this.downPayment / this.mortgageInputs.homePrice) * 100;
-
-      principle = this.mortgageInputs.homePrice - this.downPayment
-
-    this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
-    this.downPaymentChanged.next(this.downPayment);
-    }
-
-
- 
     let interest = this.mortgageInputs.interestRate / 100 / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;
