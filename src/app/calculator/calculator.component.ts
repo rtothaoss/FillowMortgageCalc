@@ -35,7 +35,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.downPaymentChangeSub = this.calcService.downPaymentChanged.subscribe(
       (value) => {
-        console.log(value);
+        // console.log(value);
         this.myForm.patchValue(
           {
             downPayment: value,
