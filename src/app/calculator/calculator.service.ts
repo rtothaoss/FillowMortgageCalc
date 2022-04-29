@@ -10,19 +10,24 @@ export class CalculatorService {
   monthlyPrincipleChanged = new Subject<number>();
   hoaChanged = new Subject<number>();
   taxesChanged = new Subject<number>();
+  propertyTaxRateChanged = new Subject<number>();
   homeInsuranceChanged = new Subject<number>();
   downPaymentChanged = new Subject<number>();
   downPaymentPercentageChanged = new Subject<number>();
+  includeTaxesAndInsuranceChanged = new Subject<boolean>();
+  
 
   public monthlyInterest: number = 833;
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
   public hoa: number = -1;
   public taxes: number;
+  public propertyTaxRate: number;
   public homeInsurance: number;
   public downPayment: number = 50000;
   public downPaymentPercentage: number;
   public homePrice: number = 0;
+  public includeTaxesAndInsurance: boolean = false
 
   public mortgageInputs: Calculator;
 
@@ -83,19 +88,12 @@ export class CalculatorService {
     } else if (
       this.downPaymentPercentage != this.mortgageInputs.downPaymentPercentage
     ) {
-  
       let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
       this.downPayment = this.mortgageInputs.homePrice * downPercentage;
 
-      this.downPaymentPercentage =
-        (this.downPayment / this.mortgageInputs.homePrice) * 100;
-
       principle = this.mortgageInputs.homePrice - this.downPayment;
 
-      this.downPaymentPercentageChanged.next(this.downPaymentPercentage);
       this.downPaymentChanged.next(this.downPayment);
-
-      this.homePrice = this.mortgageInputs.homePrice;
     }
 
 
@@ -110,21 +108,61 @@ export class CalculatorService {
     let monthlyInterest = principle * interest;
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
 
-    if (this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
-      this.taxes = this.mortgageInputs.propertyTax / 12;
-      this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
-      monthlyPayments += this.taxes;
-      monthlyPayments += this.homeInsurance;
+    console.log('this taxes ' + this.taxes)
+    console.log('this mortgageInputs.propertyTax ' + this.mortgageInputs.propertyTax)
+    console.log('this property tax rate ' + this.propertyTaxRate)
+    console.log('this mortgageInputs tax rate ' + this.mortgageInputs.propertyTaxRate)
+  
+
+    if(this.taxes != this.mortgageInputs.propertyTax) {
+      this.propertyTaxRate =
+        (this.mortgageInputs.propertyTax / this.mortgageInputs.homePrice) * 100;
+        this.propertyTaxRateChanged.next(
+          +this.propertyTaxRate.toFixed(2)
+        );
+        console.log(this.propertyTaxRate)
+
+    } else if(this.propertyTaxRate != this.mortgageInputs.propertyTaxRate) {
+      let downPercentage = this.mortgageInputs.propertyTaxRate / 100;
+      this.taxes = this.mortgageInputs.homePrice * downPercentage;
+      console.log(this.taxes)
       this.taxesChanged.next(this.taxes);
-      this.homeInsuranceChanged.next(this.homeInsurance);
     }
 
-    if (this.mortgageInputs.taxesAndInsurance.length == 0) {
-      this.taxes = 0;
-      this.homeInsurance = 0;
-      this.taxesChanged.next(this.taxes);
+
+   
+    //   this.taxes = this.mortgageInputs.propertyTax / 12;
+      // this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
+    //   monthlyPayments += this.taxes;
+    //   monthlyPayments += this.homeInsurance;
+    //   this.taxesChanged.next(this.taxes);
+      // this.homeInsuranceChanged.next(this.homeInsurance);
+    
+
+ 
+      // this.taxes = 0;
+      // this.homeInsurance = 0;
+      // this.taxesChanged.next(this.taxes);
+      // this.homeInsuranceChanged.next(this.homeInsurance);
+  
+    
+    if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
+      let taxes = this.mortgageInputs.propertyTax / 12
+      this.taxes = this.mortgageInputs.propertyTax
+      this.taxesChanged.next(this.taxes)
+      this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
       this.homeInsuranceChanged.next(this.homeInsurance);
+      monthlyPayments += taxes;
+      monthlyPayments += this.homeInsurance;
+      this.includeTaxesAndInsurance = true;
+      this.includeTaxesAndInsuranceChanged.next(this.includeTaxesAndInsurance)
     }
+
+    if(this.mortgageInputs.taxesAndInsurance.length === 0) {
+      this.includeTaxesAndInsurance = false;
+      this.includeTaxesAndInsuranceChanged.next(this.includeTaxesAndInsurance)
+    }
+
 
     monthlyPayments += this.mortgageInputs.hoaDues;
     this.hoa = this.mortgageInputs.hoaDues;
