@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Calculator } from './calculator.model';
 
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -84,7 +85,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     ];
 
     this.myForm = this.fb.group({
-      homePrice: [250000, Validators.required],
+      homePrice: [250000, [Validators.required, this.homePriceValidator]],
       downPayment: [50000, Validators.required],
       downPaymentPercentage: [20, Validators.required],
       loanProgram: [30, Validators.required],
@@ -139,4 +140,20 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     this.propertyTaxChangeSub.unsubscribe();
     this.propertyTaxRateChangeSub.unsubscribe();
   }
+
+  homePriceValidator = (control: AbstractControl) => {
+    console.log('valdiator runs')
+    if(control.value < 5000) {
+      this.myForm.patchValue(
+        {
+          downPayment: 50000,
+          downPaymentPercentage: 20
+        },
+        { emitEvent: false, onlySelf: true }
+      );
+      return {invalidPrice: true}
+    }
+    return null;
+  }
+
 }

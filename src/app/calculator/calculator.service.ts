@@ -61,6 +61,9 @@ export class CalculatorService {
     let principle = this.mortgageInputs.homePrice - this.downPayment;
 
     if (this.homePrice != this.mortgageInputs.homePrice) {
+      if(this.mortgageInputs.homePrice <= 0) {
+        return;
+      }
 
       let downPercentage = this.mortgageInputs.downPaymentPercentage / 100;
       this.downPayment = this.mortgageInputs.homePrice * downPercentage;
@@ -96,7 +99,6 @@ export class CalculatorService {
       this.downPaymentChanged.next(this.downPayment);
     }
 
-
     let interest = this.mortgageInputs.interestRate / 100 / 12;
     let numberOfPeriods = this.mortgageInputs.loanProgram * 12;
     let updatedInterest = interest + 1;
@@ -107,11 +109,6 @@ export class CalculatorService {
 
     let monthlyInterest = principle * interest;
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
-
-    console.log('this taxes ' + this.taxes)
-    console.log('this mortgageInputs.propertyTax ' + this.mortgageInputs.propertyTax)
-    console.log('this property tax rate ' + this.propertyTaxRate)
-    console.log('this mortgageInputs tax rate ' + this.mortgageInputs.propertyTaxRate)
   
 
     if(this.taxes != this.mortgageInputs.propertyTax) {
@@ -120,30 +117,14 @@ export class CalculatorService {
         this.propertyTaxRateChanged.next(
           +this.propertyTaxRate.toFixed(2)
         );
-        console.log(this.propertyTaxRate)
+       
 
     } else if(this.propertyTaxRate != this.mortgageInputs.propertyTaxRate) {
       let downPercentage = this.mortgageInputs.propertyTaxRate / 100;
       this.taxes = this.mortgageInputs.homePrice * downPercentage;
-      console.log(this.taxes)
+      
       this.taxesChanged.next(this.taxes);
     }
-
-
-   
-    //   this.taxes = this.mortgageInputs.propertyTax / 12;
-      // this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
-    //   monthlyPayments += this.taxes;
-    //   monthlyPayments += this.homeInsurance;
-    //   this.taxesChanged.next(this.taxes);
-      // this.homeInsuranceChanged.next(this.homeInsurance);
-    
-
- 
-      // this.taxes = 0;
-      // this.homeInsurance = 0;
-      // this.taxesChanged.next(this.taxes);
-      // this.homeInsuranceChanged.next(this.homeInsurance);
   
     
     if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {

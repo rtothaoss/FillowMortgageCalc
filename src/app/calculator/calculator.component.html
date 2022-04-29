@@ -9,6 +9,12 @@
         [inputStyle]="{ width: '100%' }"
         class="p-autocomplete"
       ></p-inputNumber>
+      <p *ngIf="(
+        myForm.get('homePrice')?.dirty ||
+        myForm.get('homePrice')?.touched
+       ) &&
+       myForm.get('homePrice')?.invalid"
+>Home Price must be over $5,000</p>
     </div>
 
     <div>
