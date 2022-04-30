@@ -64,7 +64,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.calcService.includeTaxesAndInsuranceChanged.subscribe((value) => {
         console.log(value + ' inside sub')
         this.showTaxesAndInsurance = value;
-        
+        this.constructChart()
       });
 
     this.monthlyPayments = this.calcService.getMonthlyPayment();
