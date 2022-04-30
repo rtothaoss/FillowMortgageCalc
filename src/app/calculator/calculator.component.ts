@@ -60,6 +60,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
       this.propertyTaxChangeSub = 
       this.calcService.taxesChanged.subscribe((value) => {
+        console.log(value)
         this.myForm.patchValue(
           {
             propertyTax: value
@@ -142,15 +143,8 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   }
 
   homePriceValidator = (control: AbstractControl) => {
-    console.log('valdiator runs')
+ 
     if(control.value < 5000) {
-      this.myForm.patchValue(
-        {
-          downPayment: 50000,
-          downPaymentPercentage: 20
-        },
-        { emitEvent: false, onlySelf: true }
-      );
       return {invalidPrice: true}
     }
     return null;

@@ -12,5 +12,9 @@
   }
 
   .p-propertyTax {
+      min-width: 100%
+  }
+
+  .p-propertyTax1 {
       min-width: 70%
   }

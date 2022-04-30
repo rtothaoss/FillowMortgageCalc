@@ -21,7 +21,7 @@ export class CalculatorService {
   public monthlyPrinciple: number = 240;
   public monthlyPayment: string;
   public hoa: number = -1;
-  public taxes: number;
+  public taxes: number = 0;
   public propertyTaxRate: number;
   public homeInsurance: number;
   public downPayment: number = 50000;
@@ -58,6 +58,7 @@ export class CalculatorService {
   }
 
   calculateMonthlyPayment() {
+    console.log(this.mortgageInputs)
     let principle = this.mortgageInputs.homePrice - this.downPayment;
 
     if (this.homePrice != this.mortgageInputs.homePrice) {
@@ -109,40 +110,46 @@ export class CalculatorService {
 
     let monthlyInterest = principle * interest;
     let monthlyPrinciple = monthlyPayments - monthlyInterest;
-  
+
 
     if(this.taxes != this.mortgageInputs.propertyTax) {
+      console.log('this is the if statement for taxes')
       this.propertyTaxRate =
         (this.mortgageInputs.propertyTax / this.mortgageInputs.homePrice) * 100;
         this.propertyTaxRateChanged.next(
           +this.propertyTaxRate.toFixed(2)
         );
-       
-
-    } else if(this.propertyTaxRate != this.mortgageInputs.propertyTaxRate) {
+        this.taxes = this.mortgageInputs.propertyTax
+        this.taxesChanged.next(this.taxes);
+        if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
+          monthlyPayments += this.taxes / 12;
+        }
+        
+    } else if (this.propertyTaxRate != this.mortgageInputs.propertyTaxRate) {
+      console.log('this is the if statement for the percentage')
       let downPercentage = this.mortgageInputs.propertyTaxRate / 100;
       this.taxes = this.mortgageInputs.homePrice * downPercentage;
+      console.log(this.taxes)
       
       this.taxesChanged.next(this.taxes);
+      if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
+        monthlyPayments += this.taxes / 12;
+      }
     }
-  
     
     if(this.mortgageInputs.taxesAndInsurance[0] === 'taxes') {
-      let taxes = this.mortgageInputs.propertyTax / 12
-      this.taxes = this.mortgageInputs.propertyTax
-      this.taxesChanged.next(this.taxes)
       this.homeInsurance = this.mortgageInputs.homeInsurance / 12;
       this.homeInsuranceChanged.next(this.homeInsurance);
-      monthlyPayments += taxes;
       monthlyPayments += this.homeInsurance;
       this.includeTaxesAndInsurance = true;
       this.includeTaxesAndInsuranceChanged.next(this.includeTaxesAndInsurance)
-    }
-
+    } 
+    
     if(this.mortgageInputs.taxesAndInsurance.length === 0) {
       this.includeTaxesAndInsurance = false;
       this.includeTaxesAndInsuranceChanged.next(this.includeTaxesAndInsurance)
     }
+
 
 
     monthlyPayments += this.mortgageInputs.hoaDues;

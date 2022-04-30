@@ -75,14 +75,16 @@
       <div>
         <h5 for="propertyTax" class="titleFont">Property Tax /year</h5>
         <div class="flex">
+          <span class="p-input-icon-right p-propertyTax1">
+            <i class=>/year</i>
           <p-inputNumber
             formControlName="propertyTax"
-            class=""
             prefix="$"
             [style]="{ width: '100%' }"
             [inputStyle]="{ width: '100%' }"
             class="p-propertyTax"
           ></p-inputNumber>
+        </span>
 
           <span class="p-input-icon-right">
             <i class="pi pi-percentage"></i>
@@ -97,27 +99,30 @@
       </div>
 
       <div>
-        <h5 for="homeInsurance" class="titleFont">Home Insurance /year</h5>
+        <h5 for="homeInsurance" class="titleFont">Home Insurance</h5>
+        <span class="p-input-icon-right p-autocomplete">
+          <i class=>/year</i>
         <p-inputNumber
           formControlName="homeInsurance"
           class="appearance-none block w-full"
           prefix="$"
           [style]="{ width: '100%' }"
           [inputStyle]="{ width: '100%' }"
-          class="p-autocomplete"
         ></p-inputNumber>
-        <!-- <p class=>/year</p> FIGURE THIS OUT -->
+       </span>
       </div>
       <div class="mb-6">
-        <h5 for="homePrice" class="titleFont">HOA /month</h5>
+        <h5 for="homePrice" class="titleFont">HOA</h5>
+        <span class="p-input-icon-right p-autocomplete">
+          <i class=>/month</i>
         <p-inputNumber
           formControlName="hoaDues"
           class="appearance-none block w-full"
           prefix="$"
           [style]="{ width: '100%' }"
           [inputStyle]="{ width: '100%' }"
-          class="p-autocomplete"
         ></p-inputNumber>
+        </span>
       </div>
       <div class="pt-2 pb-5">
         <p-checkbox

@@ -64,6 +64,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.calcService.includeTaxesAndInsuranceChanged.subscribe((value) => {
         console.log(value + ' inside sub')
         this.showTaxesAndInsurance = value;
+        
       });
 
     this.monthlyPayments = this.calcService.getMonthlyPayment();
@@ -91,13 +92,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
       dataValues.push(this.hoa.toFixed(0));
       chartLabels.push('HOA');
     }
-
+    
     if (this.taxes > 0 && this.showTaxesAndInsurance) {
       let taxes = (this.taxes / 12).toFixed(0)
       dataValues.push(taxes);
       chartLabels.push('Taxes');
     }
 
+    
     if (this.homeInsurance > 0 && this.showTaxesAndInsurance) {
       dataValues.push(this.homeInsurance.toFixed(0));
       chartLabels.push('Insurance');
@@ -158,5 +160,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.hoaChangeSub.unsubscribe();
     this.taxesChangeSub.unsubscribe();
     this.homeInsuranceChangeSub.unsubscribe();
+    this.includeTaxesAndInsuranceChanged.unsubscribe();
   }
 }
