@@ -92,7 +92,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
       loanProgram: [30, Validators.required],
       interestRate: [5, Validators.required],
       propertyTax: [0],
-      propertyTaxRate: [0],
+      propertyTaxRate: [1.5],
       homeInsurance: [0],
       hoaDues: [0],
       pmi: new FormControl('', []),
