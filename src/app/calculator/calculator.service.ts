@@ -131,15 +131,15 @@ export class CalculatorService {
     } 
   
     
-    if(this.propertyTaxRate != this.mortgageInputs.propertyTaxRate ||  this.homePrice === this.mortgageInputs.homePrice) {
+    // if(this.propertyTaxRate != this.mortgageInputs.propertyTaxRate ||  this.homePrice === this.mortgageInputs.homePrice) {
 
       
-      let taxPercentage = this.mortgageInputs.propertyTaxRate / 100;
-      this.taxes = this.mortgageInputs.homePrice * taxPercentage;
+    //   let taxPercentage = this.mortgageInputs.propertyTaxRate / 100;
+    //   this.taxes = this.mortgageInputs.homePrice * taxPercentage;
    
-      this.taxesChanged.next(this.taxes);
+    //   this.taxesChanged.next(this.taxes);
 
-    }
+    // }
     
   
     

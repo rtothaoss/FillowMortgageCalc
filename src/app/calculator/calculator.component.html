@@ -75,7 +75,7 @@
       <div>
         <h5 for="propertyTax" class="titleFont">Property Tax /year</h5>
         <div class="flex">
-          <span class="p-input-icon-right p-propertyTax1">
+          <span class="p-input-icon-right p-autocomplete">
             <i class=>/year</i>
           <p-inputNumber
             formControlName="propertyTax"
@@ -86,7 +86,7 @@
           ></p-inputNumber>
         </span>
 
-          <span class="p-input-icon-right">
+          <!-- <span class="p-input-icon-right">
             <i class="pi pi-percentage"></i>
             <input
               type="text"
@@ -94,7 +94,7 @@
               formControlName="propertyTaxRate"
               class="w-24"
             />
-          </span>
+          </span> -->
         </div>
       </div>
 
@@ -135,6 +135,7 @@
       <div class="pb-5">
         <p-checkbox
           name="taxes"
+         
           value="taxes"
           label="Include Taxes and Insurance"
           formControlName="taxesAndInsurance"

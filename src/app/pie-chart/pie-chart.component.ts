@@ -5,6 +5,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { UIChart } from 'primeng/chart';
 import { Subscription, withLatestFrom } from 'rxjs';
 import { CalculatorService } from '../calculator/calculator.service';
+import { CommonService } from '../shared/common.service';
 
 Chart.register(ChartDataLabels);
 
@@ -29,6 +30,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   homeInsurance: number;
   private includeTaxesAndInsuranceChanged: Subscription
   showTaxesAndInsurance: boolean;
+  
 
   public userAppData: any;
 
@@ -36,6 +38,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
   public userUsageHoursData: any;
 
   ngOnInit(): void {
+
+    // this.commonService.aClickedEvent
+    // .subscribe((data:string) => {
+    //   console.log('Event message from Component A: ' + data);
+    //   this.showTaxesAndInsurance = !this.showTaxesAndInsurance
+    //     this.constructChart();
+    // });
+
     this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
     this.monthlyPrincipleChangeSub =
       this.calcService.monthlyPrincipleChanged.subscribe((value) => {
@@ -65,6 +75,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.calcService.includeTaxesAndInsuranceChanged.subscribe((value) => {
         console.log(value + ' inside sub')
         this.showTaxesAndInsurance = value;
+        // this.constructChart();
        
       });
 
@@ -80,7 +91,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this.constructChart();
   }
 
-  constructor(private calcService: CalculatorService) {}
+  constructor(private calcService: CalculatorService, private commonService: CommonService) {}
 
   constructChart() {
     let dataValues = [

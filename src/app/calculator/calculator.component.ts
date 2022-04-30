@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Calculator } from './calculator.model';
+
 
 import {
   AbstractControl,
@@ -10,6 +11,8 @@ import {
 } from '@angular/forms';
 import { CalculatorService } from './calculator.service';
 import { Subscription } from 'rxjs';
+import { CommonService } from '../shared/common.service';
+
 
 interface LoanPrograms {
   name: string;
@@ -21,7 +24,9 @@ interface LoanPrograms {
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.css'],
 })
+
 export class CalculatorComponent implements OnInit, OnDestroy {
+
   public isVisible = false;
   myForm: FormGroup;
   loanPrograms: LoanPrograms[];
@@ -32,7 +37,8 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private calcService: CalculatorService
+    private calcService: CalculatorService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -141,6 +147,10 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     this.propertyTaxChangeSub.unsubscribe();
     this.propertyTaxRateChangeSub.unsubscribe();
   }
+
+  // onClick() {
+  //   this.commonService.AClicked('Button clicked!!');
+  // }
 
   homePriceValidator = (control: AbstractControl) => {
  
