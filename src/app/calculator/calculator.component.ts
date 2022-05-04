@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { CalculatorService } from './calculator.service';
 import { Subscription } from 'rxjs';
-import { CommonService } from '../shared/common.service';
+
 
 
 interface LoanPrograms {
@@ -38,7 +38,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private calcService: CalculatorService,
-    private commonService: CommonService
+  
   ) {}
 
   ngOnInit(): void {
@@ -148,9 +148,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     this.propertyTaxRateChangeSub.unsubscribe();
   }
 
-  // onClick() {
-  //   this.commonService.AClicked('Button clicked!!');
-  // }
+
 
   homePriceValidator = (control: AbstractControl) => {
  

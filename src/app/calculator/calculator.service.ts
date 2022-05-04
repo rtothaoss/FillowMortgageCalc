@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Calculator } from './calculator.model';
