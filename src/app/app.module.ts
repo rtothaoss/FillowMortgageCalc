@@ -19,10 +19,6 @@ import { ChartModule } from 'primeng/chart'
 import { PanelModule } from "primeng/panel"
 
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +38,6 @@ import { PanelModule } from "primeng/panel"
     ButtonModule,
     ChartModule,
     PanelModule,
-    ChartModule,
  
     
   ],

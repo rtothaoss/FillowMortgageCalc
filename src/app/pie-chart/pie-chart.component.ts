@@ -17,18 +17,18 @@ Chart.register(ChartDataLabels);
 export class PieChartComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: UIChart;
   private monthlyPaymentChangeSub: Subscription;
-  monthlyPayments = '';
   private monthlyPrincipleChangeSub: Subscription;
-  monthlyPrinciple: number;
   private monthlyInterestChangeSub: Subscription;
-  monthlyInterest: number;
   private hoaChangeSub: Subscription;
-  hoa: number;
   private taxesChangeSub: Subscription;
-  taxes: number;
   private homeInsuranceChangeSub: Subscription;
-  homeInsurance: number;
   private includeTaxesAndInsuranceChanged: Subscription
+  monthlyPayments = '';
+  monthlyPrinciple: number;
+  monthlyInterest: number;
+  hoa: number;
+  taxes: number;
+  homeInsurance: number;
   showTaxesAndInsurance: boolean;
   
 
