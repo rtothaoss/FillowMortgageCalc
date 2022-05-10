@@ -1,27 +1,8 @@
-# FillowMortgageCalc
+# Fillow Mortgage Calculator
+*An interactive mortgage calculator that includes a pie chart which automatically updates with the users inputs.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
+![alt text](https://media.giphy.com/media/cBolkKLuWAh2AdInA8/giphy.gif 'Fillow Mortgage Calc running')
 
-## Development server
+#### Deployed Page: [here](https://mortgagecalc-bb908.firebaseapp.com/) 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This mortgage calculator was built with modularity in mind. If the customer requires a pie chart in their application then you can use the chart seperately from the form thanks to the calculator service. The pie chart could be used completely seperately like in a mortgage lending app. If no pie chart is required then only the form can be used and ouputs setup to show all the data that is necessary. 
