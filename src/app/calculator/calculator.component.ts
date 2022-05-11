@@ -30,10 +30,8 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   public isVisible = false;
   myForm: FormGroup;
   loanPrograms: LoanPrograms[];
-  private downPaymentChangeSub: Subscription;
-  private downPaymentPercentageSub: Subscription;
-  private propertyTaxChangeSub: Subscription;
-  private propertyTaxRateChangeSub: Subscription;
+
+  private mortgageInfoChangeSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -42,48 +40,19 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.downPaymentChangeSub = this.calcService.downPaymentChanged.subscribe(
-      (value) => {
-        // console.log(value);
-        this.myForm.patchValue(
-          {
-            downPayment: value,
-          },
-          { emitEvent: false, onlySelf: true }
-        );
-      }
-    );
 
-    this.downPaymentPercentageSub =
-      this.calcService.downPaymentPercentageChanged.subscribe((value) => {
-        this.myForm.patchValue(
-          {
-            downPaymentPercentage: value,
-          },
-          { emitEvent: false, onlySelf: true }
-        );
-      });
+    this.mortgageInfoChangeSub = this.calcService.mortgageInfoChange.subscribe((value) => {
+      this.myForm.patchValue(
+        {
+          downPayment: value.downPayment,
+          downPaymentPercentage: value.downPaymentPercentage,
+          propertyTax: value.propertyTax,
+          propertyTaxRate: value.propertyTaxRate
+        },
+        {emitEvent: false, onlySelf: true}
+      )
+    })
 
-      this.propertyTaxChangeSub = 
-      this.calcService.taxesChanged.subscribe((value) => {
-        console.log(value)
-        this.myForm.patchValue(
-          {
-            propertyTax: value
-          },
-          {emitEvent: false, onlySelf: true}
-        )
-      })
-
-      this.propertyTaxRateChangeSub = 
-      this.calcService.propertyTaxRateChanged.subscribe((value) => {
-        this.myForm.patchValue(
-          {
-            propertyTaxRate: value
-          },
-          {emitEvent: false, onlySelf: true}
-        )
-      })
 
     this.loanPrograms = [
       { name: '30 Year Fixed', code: '30' },
@@ -142,10 +111,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   // }
 
   ngOnDestroy(): void {
-    this.downPaymentChangeSub.unsubscribe();
-    this.downPaymentPercentageSub.unsubscribe();
-    this.propertyTaxChangeSub.unsubscribe();
-    this.propertyTaxRateChangeSub.unsubscribe();
+    this.mortgageInfoChangeSub.unsubscribe();
   }
 
 

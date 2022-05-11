@@ -16,13 +16,12 @@ Chart.register(ChartDataLabels);
 })
 export class PieChartComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: UIChart;
-  private monthlyPaymentChangeSub: Subscription;
-  private monthlyPrincipleChangeSub: Subscription;
-  private monthlyInterestChangeSub: Subscription;
-  private hoaChangeSub: Subscription;
-  private taxesChangeSub: Subscription;
-  private homeInsuranceChangeSub: Subscription;
-  private includeTaxesAndInsuranceChanged: Subscription
+
+  private includeTaxesAndInsuranceChange: Subscription
+
+  private mortgageInfoChangeSub: Subscription;
+
+
   monthlyPayments = '';
   monthlyPrinciple: number;
   monthlyInterest: number;
@@ -39,54 +38,33 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    // this.commonService.aClickedEvent
-    // .subscribe((data:string) => {
-    //   console.log('Event message from Component A: ' + data);
-    //   this.showTaxesAndInsurance = !this.showTaxesAndInsurance
-    //     this.constructChart();
-    // });
-
     this.monthlyPrinciple = this.calcService.getMonthlyPrinciple();
-    this.monthlyPrincipleChangeSub =
-      this.calcService.monthlyPrincipleChanged.subscribe((value) => {
-        // console.log(this.monthlyPrinciple);
-        this.monthlyPrinciple = +value;
-      });
 
     this.monthlyInterest = this.calcService.getMonthlyInterest();
-    this.monthlyInterestChangeSub =
-      this.calcService.monthlyInterestChanged.subscribe((value) => {
-        // console.log(this.monthlyInterest);
-        this.monthlyInterest = +value;
-      });
 
-    this.hoaChangeSub = this.calcService.hoaChanged.subscribe((value) => {
-      this.hoa = value;
-    });
-    this.taxesChangeSub = this.calcService.taxesChanged.subscribe((value) => {
-      this.taxes = value;
-      console.log(this.taxes)
-    });
-    this.homeInsuranceChangeSub =
-      this.calcService.homeInsuranceChanged.subscribe((value) => {
-        this.homeInsurance = value;
-      });
-      this.includeTaxesAndInsuranceChanged =
-      this.calcService.includeTaxesAndInsuranceChanged.subscribe((value) => {
+    this.monthlyInterest = this.calcService.getMonthlyInterest();
+
+    this.mortgageInfoChangeSub = this.calcService.mortgageInfoChange.subscribe((value) => {
+      console.log(value)
+      this.monthlyPrinciple = +value.monthlyPrinciple,
+      this.monthlyInterest = +value.monthlyInterest,
+      this.taxes = value.propertyTax
+      this.homeInsurance = value.homeInsurance
+      if (this.monthlyPayments != value.monthlyPayment) {
+              this.monthlyPayments = value.monthlyPayment;
+              this.constructChart();
+            }
+    })
+
+
+      this.includeTaxesAndInsuranceChange =
+      this.calcService.includeTaxesAndInsuranceChange.subscribe((value) => {
         console.log(value + ' inside sub')
         this.showTaxesAndInsurance = value;
-        // this.constructChart();
        
       });
 
-    this.monthlyPayments = this.calcService.getMonthlyPayment();
-    this.monthlyPaymentChangeSub =
-      this.calcService.monthlyPaymentChanged.subscribe((value) => {
-        if (this.monthlyPayments != value) {
-          this.monthlyPayments = value;
-          this.constructChart();
-        }
-      });
+ 
 
     this.constructChart();
   }
@@ -166,12 +144,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.monthlyPaymentChangeSub.unsubscribe();
-    this.monthlyInterestChangeSub.unsubscribe();
-    this.monthlyPrincipleChangeSub.unsubscribe();
-    this.hoaChangeSub.unsubscribe();
-    this.taxesChangeSub.unsubscribe();
-    this.homeInsuranceChangeSub.unsubscribe();
-    this.includeTaxesAndInsuranceChanged.unsubscribe();
+    this.mortgageInfoChangeSub.unsubscribe();
+    this.includeTaxesAndInsuranceChange.unsubscribe();
   }
 }
