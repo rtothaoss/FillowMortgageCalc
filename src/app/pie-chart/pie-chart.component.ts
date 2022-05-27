@@ -76,7 +76,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.monthlyPrinciple.toFixed(0),
       this.monthlyInterest.toFixed(0),
     ];
-    let chartLabels: Array<string> = ['Principle', 'Interest'];
+    let chartLabels: Array<string> = ['Principal', 'Interest'];
 
     if (this.hoa > 0) {
       dataValues.push(this.hoa.toFixed(0));

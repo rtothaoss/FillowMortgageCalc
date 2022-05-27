@@ -92,12 +92,7 @@ export class CalculatorService {
 
       principle = this.mortgageInputs.homePrice - this.mortgageInfo.downPayment;
 
-    
-
-
       this.mortgageInfo.homePrice = this.mortgageInputs.homePrice;
-
-
       
     } else if (this.mortgageInfo.downPayment != this.mortgageInputs.downPayment ) {
       
@@ -183,10 +178,8 @@ export class CalculatorService {
 
     this.mortgageInfo.monthlyInterest = monthlyInterest;
 
-
     this.mortgageInfo.monthlyPrinciple = monthlyPrinciple;
    
-
     this.mortgageInfo.monthlyPayment = monthlyPayments.toFixed(2);
     this.mortgageInfoChange.next(this.mortgageInfo)
   }
