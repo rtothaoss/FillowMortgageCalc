@@ -50,6 +50,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.monthlyInterest = +value.monthlyInterest,
       this.taxes = value.propertyTax
       this.homeInsurance = value.homeInsurance
+      this.hoa = value.hoaDues
       if (this.monthlyPayments != value.monthlyPayment) {
               this.monthlyPayments = value.monthlyPayment;
               this.constructChart();
